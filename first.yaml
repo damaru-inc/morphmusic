@@ -1,0 +1,33 @@
+patterns:
+  -
+    name: p1
+    notes:
+      -
+        midiNum: 48
+        start: 0
+        duration: 1
+        dynamic: 1
+        expression: 1
+      -
+        midiNum: 49
+        start: 1
+        duration: 1
+        dynamic: 1
+        expression: 1
+  -
+    name: p2
+    notes:
+      -
+        midiNum: 72
+        start: 0
+        duration: 1
+        dynamic: 1
+        expression: 1
+      -
+        midiNum: 70
+        start: 1
+        duration: 1
+        dynamic: 1
+        expression: 1
+
+  
