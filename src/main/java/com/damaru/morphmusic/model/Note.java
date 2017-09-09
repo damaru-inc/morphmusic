@@ -6,6 +6,9 @@ public class Note {
     private int duration;
     private int dynamic;
     private int expression;
+    private int orderIn;
+    private int orderOut;
+    
     public int getMidiNum() {
         return midiNum;
     }
@@ -35,6 +38,19 @@ public class Note {
     }
     public void setExpression(int expression) {
         this.expression = expression;
+    }
+    
+    public int getOrderIn() {
+        return orderIn;
+    }
+    public void setOrderIn(int orderIn) {
+        this.orderIn = orderIn;
+    }
+    public int getOrderOut() {
+        return orderOut;
+    }
+    public void setOrderOut(int orderOut) {
+        this.orderOut = orderOut;
     }
     @Override
     public String toString() {

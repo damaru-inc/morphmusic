@@ -1,6 +1,7 @@
 patterns:
   -
     name: p1
+    duration: 6
     notes:
       -
         midiNum: 48
@@ -8,14 +9,19 @@ patterns:
         duration: 1
         dynamic: 1
         expression: 1
+        orderIn: 1
+        orderOut: 1
       -
         midiNum: 49
         start: 1
         duration: 1
         dynamic: 1
         expression: 1
+        orderIn: 2
+        orderOut: 2
   -
     name: p2
+    duration: 6
     notes:
       -
         midiNum: 72
@@ -23,11 +29,17 @@ patterns:
         duration: 1
         dynamic: 1
         expression: 1
+        orderIn: 1
+        orderOut: 1
+        
       -
         midiNum: 70
         start: 1
         duration: 1
         dynamic: 1
         expression: 1
+        orderIn: 2
+        orderOut: 2
+        
 
   
