@@ -1,5 +1,6 @@
+name: part 1
 patterns:
-  -
+  - 
     name: p1
     duration: 6
     notes:
@@ -40,6 +41,17 @@ patterns:
         expression: 1
         orderIn: 2
         orderOut: 2
-        
-
-  
+sections: 
+  -
+    name: p1
+    startPattern: p1
+    steps: 1
+  -
+    name: p1-p2
+    startPattern: p1
+    endPattern: p2
+    steps: 4
+  -
+    name: p2
+    startPattern: p2
+    steps: 1
