@@ -48,7 +48,7 @@ public class Morpher {
         }
 
         // if we have 3 steps, we want percentDone to be: .25, .5 and .75
-        double percentPerStep = 1 / (steps + 1);
+        double percentPerStep = 1.0 / (steps + 1);
         double percentDone = percentPerStep;
         Pattern startPattern = patternMap.get(section.getStartPattern());
         Pattern endPattern = patternMap.get(section.getEndPattern());
@@ -66,40 +66,61 @@ public class Morpher {
             } else {
                 durationIncrement = startPattern.getDuration();
             }
+            
             int numNotesDroppedFromStart = (int) Math.round(numStartNotes * percentDone);
             int numNotesAddedFromEnd = (int) Math.round(numEndNotes * percentDone);
             List<Note> notesThisStep = new ArrayList<>();
+            
+            log.info(String.format("step: %d pos: %d pc: %f startNotes: %d endNotes: %d", i, currentPosition, percentDone, numNotesDroppedFromStart, numNotesAddedFromEnd));
 
+            int n = 0;
             for (Note note : startNotes) {
                 if (note.getOrderOut() > numNotesDroppedFromStart) {
                     Note newNote = new Note(note);
-                    int start = currentPosition
-                            + Math.min(1, (int) Math.round(note.getStart() * durationFactor * percentDone));
-                    int duration = Math.min(1, (int) Math.round(note.getDuration() * durationFactor * percentDone));
+                    
+                    // if the patterns are of the same length, we don't need to compute scaled durations.
+                    
+                    int start = 0;
+                    if (durationDiff == 0) {
+                        newNote.setStart(currentPosition + note.getStart());
+                    } else {
+                    start = currentPosition
+                            + Math.max(1, (int) Math.round(note.getStart() + durationFactor * percentDone));
+                    int duration = Math.max(1, (int) Math.round(note.getDuration() + durationFactor * percentDone));
                     newNote.setStart(start);
                     newNote.setDuration(duration);
+                    }
+                    newNote.setId(String.format("%s-%s-%d", section.getName(), startPattern.getName(), i));
                     notesThisStep.add(newNote);
                 }
             }
             for (Note note : endNotes) {
-                if (note.getOrderIn() > numNotesAddedFromEnd) {
+                if (note.getOrderIn() <= numNotesAddedFromEnd) {
                     Note newNote = new Note(note);
-                    int start = currentPosition
-                            + Math.min(1, (int) Math.round(note.getStart() * (1 / durationFactor) * percentDone));
-                    int duration = Math.min(1,
-                            (int) Math.round(note.getDuration() * (1 / durationFactor) * percentDone));
-                    newNote.setStart(start);
-                    newNote.setDuration(duration);
+                    
+                   // if the patterns are of the same length, we don't need to compute scaled durations.                    
+                    int start = 0;
+                    if (durationDiff == 0) {
+                        newNote.setStart(currentPosition + note.getStart());
+                    } else {
+                        start = currentPosition
+                                + Math.max(1, (int) Math.round(note.getStart() + durationFactor * percentDone));
+                        int duration = Math.max(1, (int) Math.round(note.getDuration() + durationFactor * percentDone));
+                        newNote.setStart(start);
+                        newNote.setDuration(duration);                        
+                    }
+                    newNote.setId(String.format("%s-%s-%d", section.getName(), endPattern.getName(), i));
                     notesThisStep.add(newNote);
                 }
             }
 
             notesThisStep.sort((n1, n2) -> {
-                return n2.getStart() - n1.getStart();
+                return n1.getStart() - n2.getStart();
             });
             
             notes.addAll(notesThisStep);
             currentPosition += durationIncrement;
+            percentDone += percentPerStep;
         }
         return currentPosition;
     }

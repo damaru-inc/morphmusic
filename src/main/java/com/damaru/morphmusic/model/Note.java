@@ -1,6 +1,7 @@
 package com.damaru.morphmusic.model;
 
 public class Note {
+    private String id;
     private int midiNum;
     private int start;
     private int duration;
@@ -24,6 +25,14 @@ public class Note {
     }
     
     
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public int getMidiNum() {
         return midiNum;
     }
@@ -69,8 +78,8 @@ public class Note {
     }
     @Override
     public String toString() {
-        return "Note [midiNum=" + midiNum + ", start=" + start + ", duration=" + duration + ", dynamic=" + dynamic
-                + ", expression=" + expression + "]";
+        return "Note [id=" + id + ", midiNum=" + midiNum + ", start=" + start + ", duration=" + duration + ", orderIn="
+                + orderIn + ", orderOut=" + orderOut + "]";
     }
     
     
