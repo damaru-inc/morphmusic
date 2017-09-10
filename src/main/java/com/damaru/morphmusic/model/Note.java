@@ -9,6 +9,21 @@ public class Note {
     private int orderIn;
     private int orderOut;
     
+    public Note() {
+        
+    }
+    
+    public Note(Note note) {
+        midiNum = note.getMidiNum();
+        start = note.getStart();
+        duration = note.getDuration();
+        dynamic = note.getDynamic();
+        expression = note.getExpression();
+        orderIn = note.getOrderIn();
+        orderOut = note.getOrderOut();
+    }
+    
+    
     public int getMidiNum() {
         return midiNum;
     }
