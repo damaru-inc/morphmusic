@@ -76,7 +76,7 @@ sections:
   -
     name: p1
     startPattern: p1
-    steps: 0
+    steps: 1
   -
     name: p1-p2
     startPattern: p1
@@ -85,4 +85,4 @@ sections:
   -
     name: p2
     startPattern: p2
-    steps: 0
+    steps: 1

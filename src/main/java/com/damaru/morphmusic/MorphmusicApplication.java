@@ -24,14 +24,14 @@ public class MorphmusicApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        log.info("We are here.");
+        log.info("Starting our code.");
         String filename = "first.yaml";
         Part part = null;
         
         YAMLMapper mapper = new YAMLMapper();
         try {
             part = mapper.readValue(new File(filename), Part.class);
-            System.out.println("part: " + part);
+            log.info("part: " + part);
             morpher.process(part);
         } catch (Exception e) {
             // TODO Auto-generated catch block

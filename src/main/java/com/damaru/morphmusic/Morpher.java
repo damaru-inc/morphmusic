@@ -39,6 +39,7 @@ public class Morpher {
 
         log.info("Finished processing part " + part.getName());
         notes.forEach(log::info);
+        log.info("Finished dumping notes.");
     }
 
     public int morphPatterns(int currentPosition, List<Note> notes, Section section) {
@@ -62,7 +63,7 @@ public class Morpher {
         for (int i = 0; i < steps; i++) {
             int durationIncrement = 0;
             if (durationDiff != 0) {
-                durationIncrement = (int) Math.round(durationDiff / percentDone);
+                durationIncrement = (int) Math.round(durationDiff * percentDone);
             } else {
                 durationIncrement = startPattern.getDuration();
             }
@@ -71,7 +72,7 @@ public class Morpher {
             int numNotesAddedFromEnd = (int) Math.round(numEndNotes * percentDone);
             List<Note> notesThisStep = new ArrayList<>();
             
-            log.info(String.format("step: %d pos: %d pc: %f startNotes: %d endNotes: %d", i, currentPosition, percentDone, numNotesDroppedFromStart, numNotesAddedFromEnd));
+            log.info(String.format("step: %d pos: %d pc: %f di: %d startNotes: %d endNotes: %d", i, currentPosition, percentDone, durationIncrement, numNotesDroppedFromStart, numNotesAddedFromEnd));
 
             int n = 0;
             for (Note note : startNotes) {
@@ -104,8 +105,8 @@ public class Morpher {
                         newNote.setStart(currentPosition + note.getStart());
                     } else {
                         start = currentPosition
-                                + Math.max(1, (int) Math.round(note.getStart() + durationFactor * percentDone));
-                        int duration = Math.max(1, (int) Math.round(note.getDuration() + durationFactor * percentDone));
+                                + Math.max(1, (int) Math.round(note.getStart() + durationFactor * (1.0 - percentDone)));
+                        int duration = Math.max(1, (int) Math.round(note.getDuration() + durationFactor * (1.0 - percentDone)));
                         newNote.setStart(start);
                         newNote.setDuration(duration);                        
                     }
@@ -136,6 +137,7 @@ public class Morpher {
             for (Note note : p.getNotes()) {
                 Note newNote = new Note(note);
                 newNote.setStart(currentPosition + note.getStart());
+                newNote.setId(String.format("%s-%s-%d", section.getName(), p.getName(), i));
                 notes.add(newNote);
             }
             currentPosition += p.getDuration();
