@@ -2,36 +2,36 @@ name: part 1
 patterns:
   - 
     name: p1
-    duration: 8
+    duration: 16
     notes:
       -
         midiNum: 40
         start: 0
-        duration: 1
+        duration: 4
         dynamic: 1
         expression: 1
         orderIn: 1
         orderOut: 1
       -
         midiNum: 41
-        start: 1
-        duration: 1
+        start: 4
+        duration: 4
         dynamic: 1
         expression: 1
         orderIn: 2
         orderOut: 2
       -
         midiNum: 42
-        start: 2
-        duration: 1
+        start: 8
+        duration: 4
         dynamic: 1
         expression: 1
         orderIn: 3
         orderOut: 3
       -
         midiNum: 43
-        start: 3
-        duration: 1
+        start: 12
+        duration: 4
         dynamic: 1
         expression: 1
         orderIn: 4
@@ -43,31 +43,31 @@ patterns:
       -
         midiNum: 72
         start: 0
-        duration: 1
+        duration: 4
         dynamic: 1
         expression: 1
         orderIn: 1
         orderOut: 1
       -
         midiNum: 73
-        start: 1
-        duration: 1
+        start: 8
+        duration: 4
         dynamic: 1
         expression: 1
         orderIn: 2
         orderOut: 2
       -
         midiNum: 74
-        start: 2
-        duration: 1
+        start: 16
+        duration: 4
         dynamic: 1
         expression: 1
         orderIn: 3
         orderOut: 3
       -
         midiNum: 75
-        start: 3
-        duration: 1
+        start: 24
+        duration: 4
         dynamic: 1
         expression: 1
         orderIn: 4
