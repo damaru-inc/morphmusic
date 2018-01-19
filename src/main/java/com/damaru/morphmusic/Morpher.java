@@ -33,6 +33,7 @@ public class Morpher {
 				note.setProportionalStart(proportionalStart);
 				double proportionalDuration = note.getDuration() / (double) patternDuration;
 				note.setProportionalDuration(proportionalDuration);
+				log.info(String.format("proc: %d %f %f", patternDuration, proportionalStart, proportionalDuration));
 			}
 		}
 
@@ -70,7 +71,8 @@ public class Morpher {
 		int numEndNotes = endNotes.size();
 		int durationDiff = endPattern.getDuration() - startPattern.getDuration();
 		double durationFactor = endPattern.getDuration() / startPattern.getDuration();
-		log.info(String.format("durationDiff: %d durationFactor: %4f currentPosition: %d", durationDiff, durationFactor, currentPosition));
+		log.debug(String.format("durationDiff: %d durationFactor: %4f currentPosition: %d", durationDiff, durationFactor,
+				currentPosition));
 
 		for (int step = 0; step < steps; step++) {
 			int stepDuration = 0;
@@ -84,7 +86,7 @@ public class Morpher {
 			int numNotesAddedFromEnd = (int) Math.round(numEndNotes * percentDone);
 			List<Note> notesThisStep = new ArrayList<>();
 
-			log.info(String.format("step: %d pos: %d pc: %f dur: %d startNotes: %d endNotes: %d", step, currentPosition,
+			log.debug(String.format("step: %d pos: %d pc: %f dur: %d startNotes: %d endNotes: %d", step, currentPosition,
 					percentDone, stepDuration, numStartNotes - numNotesDroppedFromStart, numNotesAddedFromEnd));
 
 			for (Note note : startNotes) {
@@ -98,8 +100,13 @@ public class Morpher {
 					if (durationDiff == 0) {
 						newNote.setStart(currentPosition + note.getStart());
 					} else {
-						start = currentPosition
-								+ Math.max(1, (int) Math.round(note.getProportionalStart() * stepDuration));
+						double s = note.getProportionalStart() * stepDuration;
+						double rs = Math.round(s);
+						double d = note.getProportionalDuration() * stepDuration;
+						double rd = Math.round(d);
+
+						log.debug(String.format("p1 %f %f %f %f", s, rs, d, rd));
+						start = currentPosition + (int) Math.round(note.getProportionalStart() * stepDuration);
 						int dur = Math.max(1, (int) Math.round(note.getProportionalDuration() * stepDuration));
 						newNote.setStart(start);
 						newNote.setDuration(dur);
@@ -118,8 +125,13 @@ public class Morpher {
 					if (durationDiff == 0) {
 						newNote.setStart(currentPosition + note.getStart());
 					} else {
-						start = currentPosition
-								+ Math.max(1, (int) Math.round(note.getProportionalStart() * stepDuration));
+						double s = note.getProportionalStart() * stepDuration;
+						double rs = Math.round(s);
+						double d = note.getProportionalDuration() * stepDuration;
+						double rd = Math.round(d);
+
+						log.debug(String.format("p2 %f %f %f %f", s, rs, d, rd));
+						start = currentPosition + (int) Math.round(note.getProportionalStart() * stepDuration);
 						int dur = Math.max(1, (int) Math.round(note.getProportionalDuration() * stepDuration));
 						newNote.setStart(start);
 						newNote.setDuration(dur);
@@ -147,7 +159,8 @@ public class Morpher {
 		}
 
 		Pattern p = patternMap.get(section.getStartPattern());
-		log.info(String.format("repeatPattern %s currentPosition %d duration %d steps %d", section.getStartPattern(), currentPosition, p.getDuration(), steps));
+		log.info(String.format("repeatPattern %s currentPosition %d duration %d steps %d", section.getStartPattern(),
+				currentPosition, p.getDuration(), steps));
 		for (int i = 0; i < steps; i++) {
 			for (Note note : p.getNotes()) {
 				Note newNote = new Note(note);
