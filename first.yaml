@@ -74,15 +74,15 @@ patterns:
         orderOut: 4
 sections: 
   -
-    name: p1
+    name: s1
     startPattern: p1
     steps: 1
   -
-    name: p1-p2
+    name: s2
     startPattern: p1
     endPattern: p2
     steps: 3
   -
-    name: p2
+    name: s3
     startPattern: p2
     steps: 1

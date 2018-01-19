@@ -18,7 +18,7 @@ import com.damaru.morphmusic.model.Section;
 public class Morpher {
 
 	private Log log = LogFactory.getLog(Morpher.class);
-	private static final String ID_PATTERN = "%s-%s-%03d";
+	private static final String ID_PATTERN = "%s-%02d";
 	private HashMap<String, Pattern> patternMap = new HashMap<>();
 
 	public void process(Part part) throws MorpherException {
@@ -28,12 +28,16 @@ public class Morpher {
 
 		for (Pattern pattern : part.getPatterns()) {
 			int patternDuration = pattern.getDuration();
+			int noteNum = 0;
 			for (Note note : pattern.getNotes()) {
+				noteNum++;				
+				String id = String.format(ID_PATTERN, pattern.getName(), noteNum);
+				note.setId(id);
 				double proportionalStart = note.getStart() / (double) patternDuration;
 				note.setProportionalStart(proportionalStart);
 				double proportionalDuration = note.getDuration() / (double) patternDuration;
 				note.setProportionalDuration(proportionalDuration);
-				log.info(String.format("proc: %d %f %f", patternDuration, proportionalStart, proportionalDuration));
+				log.debug(String.format("proc: %d %f %f", patternDuration, proportionalStart, proportionalDuration));
 			}
 		}
 
@@ -111,7 +115,6 @@ public class Morpher {
 						newNote.setStart(start);
 						newNote.setDuration(dur);
 					}
-					newNote.setId(String.format(ID_PATTERN, section.getName(), startPattern.getName(), step));
 					notesThisStep.add(newNote);
 				}
 			}
@@ -136,7 +139,6 @@ public class Morpher {
 						newNote.setStart(start);
 						newNote.setDuration(dur);
 					}
-					newNote.setId(String.format(ID_PATTERN, section.getName(), endPattern.getName(), step));
 					notesThisStep.add(newNote);
 				}
 			}
@@ -165,7 +167,6 @@ public class Morpher {
 			for (Note note : p.getNotes()) {
 				Note newNote = new Note(note);
 				newNote.setStart(currentPosition + note.getStart());
-				newNote.setId(String.format(ID_PATTERN, section.getName(), p.getName(), i));
 				notes.add(newNote);
 			}
 			currentPosition += p.getDuration();

@@ -17,6 +17,7 @@ public class Note {
 	}
 
 	public Note(Note note) {
+		id = note.getId();
 		midiNum = note.getMidiNum();
 		start = note.getStart();
 		proportionalStart = note.getProportionalStart();
@@ -110,7 +111,7 @@ public class Note {
 
 	@Override
 	public String toString() {
-		return String.format("Note [id=%12s m=%2d st=%3d %f dur=%3d %f in=%3d out=%d]", id, midiNum, start,
+		return String.format("Note [id=%12s m=%2d st=%3d %6.03f dur=%3d %6.03f in=%3d out=%d]", id, midiNum, start,
 				proportionalStart, duration, proportionalDuration, orderIn, orderOut);
 	}
 
