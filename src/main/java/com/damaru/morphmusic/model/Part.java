@@ -6,6 +6,7 @@ public class Part {
     private String name;
     private List<Pattern> patterns;
     private List<Section> sections;
+    private List<Note> notes;
 
     public String getName() {
         return name;
@@ -29,6 +30,19 @@ public class Part {
 
     public void setSections(List<Section> sections) {
         this.sections = sections;
+    }
+    
+    /**
+     * This holds the result of any generation or filtering.
+     * 
+     * @return The list of notes associated with this part, possibly generated.
+     */
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(List<Note> notes) {
+        this.notes = notes;
     }
 
     @Override

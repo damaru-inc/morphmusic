@@ -1,0 +1,17 @@
+Midi middle c: 60
+
+dynamics: 1-8
+
+	1 ppp
+	2 pp
+	3 p
+	4 mp
+	5 mf
+	6 f
+	7 ff
+	8 fff
+
+
+expression:
+	1 - normal
+	2 - pizz

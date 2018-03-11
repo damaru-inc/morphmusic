@@ -14,7 +14,6 @@ import com.damaru.morphmusic.model.Part;
 import com.damaru.morphmusic.model.Pattern;
 import com.damaru.morphmusic.model.Section;
 
-@Component
 public class Morpher {
 
     private Log log = LogFactory.getLog(Morpher.class);
@@ -40,6 +39,7 @@ public class Morpher {
         log.info("Finished processing part " + part.getName());
         notes.forEach(log::info);
         log.info("Finished dumping notes.");
+        part.setNotes(notes);
     }
 
     public int morphPatterns(int currentPosition, List<Note> notes, Section section) {

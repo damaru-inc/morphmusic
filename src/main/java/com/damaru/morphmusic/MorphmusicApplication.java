@@ -4,7 +4,6 @@ import java.io.File;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,7 +15,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 public class MorphmusicApplication implements CommandLineRunner {
 
     private Log log = LogFactory.getLog(MorphmusicApplication.class);
-    @Autowired private Morpher morpher;
+    private Morpher morpher = new Morpher();
     
 	public static void main(String[] args)  {
 		SpringApplication.run(MorphmusicApplication.class, args);
@@ -24,8 +23,14 @@ public class MorphmusicApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        log.info("Starting our code.");
-        String filename = "first.yaml";
+        String filename = "midimorph.yaml";
+        
+        if (args.length > 0) {
+            filename = args[0];
+        }
+		
+        log.info("Loading file " + filename);
+
         Part part = null;
         
         YAMLMapper mapper = new YAMLMapper();
@@ -33,6 +38,7 @@ public class MorphmusicApplication implements CommandLineRunner {
             part = mapper.readValue(new File(filename), Part.class);
             log.info("part: " + part);
             morpher.process(part);
+            mapper.writeValue(new File("out.yaml"), part);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

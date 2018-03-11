@@ -1,0 +1,171 @@
+name: part 1
+patterns:
+  - 
+    name: a1
+    duration: 72
+    notes:
+      -
+        midiNum: 76
+        start: 12
+        duration: 4
+        dynamic: 2
+        expression: 2
+        orderIn: 1
+        orderOut: 2
+      -
+        midiNum: 76
+        start: 4
+        duration: 1
+        dynamic: 3
+        expression: 2
+        orderIn: 2
+        orderOut: 1
+  -
+    name: b1
+    duration: 17
+    notes:
+      -
+        midiNum: 62
+        start: 0
+        duration: 2
+        dynamic: 4
+        expression: 1
+        orderIn: 1
+        orderOut: 1
+      -
+        midiNum: 69
+        start: 2
+        duration: 4
+        dynamic: 4
+        expression: 1
+        orderIn: 9
+        orderOut: 2
+      -
+        midiNum: 72
+        start: 4
+        duration: 2
+        dynamic: 6
+        expression: 1
+        orderIn: 8
+        orderOut: 3
+      -
+        midiNum: 76
+        start: 6
+        duration: 2
+        dynamic: 4
+        expression: 1
+        orderIn: 4
+      -
+        midiNum: 74
+        start: 8
+        duration: 1
+        dynamic: 4
+        expression: 1
+        orderIn: 4
+        orderOut: 4
+      -
+        midiNum: 69
+        start: 9
+        duration: 2
+        dynamic: 4
+        expression: 1
+        orderIn: 4
+        orderOut: 4
+      -
+        midiNum: 71
+        start: 11
+        duration: 2
+        dynamic: 6
+        expression: 1
+        orderIn: 4
+        orderOut: 4
+      -
+        midiNum: 72
+        start: 13
+        duration: 1
+        dynamic: 4
+        expression: 1
+        orderIn: 4
+        orderOut: 4
+      -
+        midiNum: 67
+        start: 15
+        duration: 2
+        dynamic: 4
+        expression: 1
+        orderIn: 4
+        orderOut: 4
+  -
+    name: c1
+    duration: 52
+    notes:
+      -
+        midiNum: 88
+        start: 3
+        duration: 5
+        dynamic: 4
+        expression: 1
+        orderIn: 5
+        orderOut: 3
+      -
+        midiNum: 90
+        start: 10
+        duration: 7
+        dynamic: 4
+        expression: 1
+        orderIn: 6
+        orderOut: 1
+      -
+        midiNum: 84
+        start: 19
+        duration: 3
+        dynamic: 6
+        expression: 1
+        orderIn: 3
+        orderOut: 5
+      -
+        midiNum: 79
+        start: 27
+        duration: 3
+        dynamic: 4
+        expression: 1
+        orderIn: 1
+        orderOut: 7
+      -
+        midiNum: 84
+        start: 33
+        duration: 4
+        dynamic: 4
+        expression: 1
+        orderIn: 7
+        orderOut: 4
+      -
+        midiNum: 73
+        start: 41
+        duration: 4
+        dynamic: 4
+        expression: 1
+        orderIn: 2
+        orderOut: 6
+      -
+        midiNum: 83
+        start: 47
+        duration: 3
+        dynamic: 4
+        expression: 1
+        orderIn: 4
+        orderOut: 2
+sections: 
+  -
+    name: a1
+    startPattern: a1
+    steps: 7
+  -
+    name: ab1
+    startPattern: a1
+    endPattern: b1
+    steps: 27
+  -
+    name: b1
+    startPattern: b1
+    steps: 8
