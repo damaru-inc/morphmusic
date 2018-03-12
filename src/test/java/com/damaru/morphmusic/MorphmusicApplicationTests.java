@@ -25,7 +25,7 @@ public class MorphmusicApplicationTests {
     @Test
     public void loadTest() throws Exception {
         
-        String filename = "inter1.yml";
+        String filename = "first.yaml";
         String basename = filename;
         
         log.info("Loading file " + filename);

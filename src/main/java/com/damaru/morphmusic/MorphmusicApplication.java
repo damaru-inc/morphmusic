@@ -27,6 +27,9 @@ public class MorphmusicApplication implements CommandLineRunner {
         
         if (args.length > 0) {
             filename = args[0];
+        } else {
+            log.error("Required: filename");
+            return;
         }
 		
         log.info("Loading file " + filename);

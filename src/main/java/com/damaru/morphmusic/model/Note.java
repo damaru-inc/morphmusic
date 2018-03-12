@@ -1,98 +1,115 @@
 package com.damaru.morphmusic.model;
 
 public class Note {
-    private String id;
-    private int midiNum;
-    private int start;
-    private int duration;
-    private int dynamic;
-    private int expression;
-    private int orderIn;
-    private int orderOut;
 
-    public Note() {
+	private String id;
+	private int midiNum;
+	private int start;
+	private double proportionalStart;
+	private int duration;
+	private double proportionalDuration;
+	private int dynamic;
+	private int expression;
+	private int orderIn;
+	private int orderOut;
 
-    }
+	public Note() {
 
-    public Note(Note note) {
-        midiNum = note.getMidiNum();
-        start = note.getStart();
-        duration = note.getDuration();
-        dynamic = note.getDynamic();
-        expression = note.getExpression();
-        orderIn = note.getOrderIn();
-        orderOut = note.getOrderOut();
-    }
+	}
 
-    public String getId() {
-        return id;
-    }
+	public Note(Note note) {
+		id = note.getId();
+		midiNum = note.getMidiNum();
+		start = note.getStart();
+		proportionalStart = note.getProportionalStart();
+		duration = note.getDuration();
+		proportionalDuration = note.getProportionalDuration();
+		dynamic = note.getDynamic();
+		expression = note.getExpression();
+		orderIn = note.getOrderIn();
+		orderOut = note.getOrderOut();
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public int getMidiNum() {
-        return midiNum;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public void setMidiNum(int midiNum) {
-        this.midiNum = midiNum;
-    }
+	public int getMidiNum() {
+		return midiNum;
+	}
 
-    public int getStart() {
-        return start;
-    }
+	public void setMidiNum(int midiNum) {
+		this.midiNum = midiNum;
+	}
 
-    public void setStart(int start) {
-        this.start = start;
-    }
+	public int getStart() {
+		return start;
+	}
 
-    public int getDuration() {
-        return duration;
-    }
+	public void setStart(int start) {
+		this.start = start;
+	}
 
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
+	public double getProportionalStart() {
+		return proportionalStart;
+	}
 
-    public int getDynamic() {
-        return dynamic;
-    }
+	public void setProportionalStart(double proportionalStart) {
+		this.proportionalStart = proportionalStart;
+	}
 
-    public void setDynamic(int dynamic) {
-        this.dynamic = dynamic;
-    }
+	public int getDuration() {
+		return duration;
+	}
 
-    public int getExpression() {
-        return expression;
-    }
+	public void setDuration(int duration) {
+		this.duration = duration;
+	}
 
-    public void setExpression(int expression) {
-        this.expression = expression;
-    }
+	public double getProportionalDuration() {
+		return proportionalDuration;
+	}
 
-    public int getOrderIn() {
-        return orderIn;
-    }
+	public void setProportionalDuration(double proportionateDuration) {
+		this.proportionalDuration = proportionateDuration;
+	}
 
-    public void setOrderIn(int orderIn) {
-        this.orderIn = orderIn;
-    }
+	public int getDynamic() {
+		return dynamic;
+	}
 
-    public int getOrderOut() {
-        return orderOut;
-    }
+	public void setDynamic(int dynamic) {
+		this.dynamic = dynamic;
+	}
 
-    public void setOrderOut(int orderOut) {
-        this.orderOut = orderOut;
-    }
+	public int getExpression() {
+		return expression;
+	}
 
-    /**
-     * This assumes we have dynamic values from 1 to 8.
-     * 
-     * @return
-     */
+	public void setExpression(int expression) {
+		this.expression = expression;
+	}
+
+	public int getOrderIn() {
+		return orderIn;
+	}
+
+	public void setOrderIn(int orderIn) {
+		this.orderIn = orderIn;
+	}
+
+	public int getOrderOut() {
+		return orderOut;
+	}
+
+	public void setOrderOut(int orderOut) {
+		this.orderOut = orderOut;
+	}
+	
     public int getVelocity() {
         int dynamic = getDynamic();
 
@@ -109,10 +126,11 @@ public class Note {
         return 264 * duration;
     }
 
-    @Override
-    public String toString() {
-        return "Note [id=" + id + ", midiNum=" + midiNum + ", start=" + start + ", duration=" + duration + ", orderIn="
-                + orderIn + ", orderOut=" + orderOut + "]";
-    }
+
+	@Override
+	public String toString() {
+		return String.format("Note [id=%12s m=%2d st=%3d %6.03f dur=%3d %6.03f in=%3d out=%d]", id, midiNum, start,
+				proportionalStart, duration, proportionalDuration, orderIn, orderOut);
+	}
 
 }
