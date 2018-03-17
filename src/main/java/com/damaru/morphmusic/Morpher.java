@@ -1,5 +1,6 @@
 package com.damaru.morphmusic;
 
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -20,7 +21,7 @@ public class Morpher {
 	private static final String ID_PATTERN = "%s-%02d";
 	private HashMap<String, Pattern> patternMap = new HashMap<>();
 
-	public void process(Part part) throws MorpherException {
+	public void process(Part part, Writer reportWriter) throws MorpherException {
 		log.info("Processing part " + part.getName());
 
 		validate(part);

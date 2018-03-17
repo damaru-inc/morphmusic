@@ -1,0 +1,142 @@
+name: inter-4
+patterns:
+  - 
+    name: a4
+    duration: 72
+    notes:
+      -
+        midiNoteNum: 40
+        start: 15
+        duration: 2
+        dynamic: 3
+        expression: 1
+        orderIn: 2
+        orderOut: 2
+      -
+        midiNoteNum: 40
+        start: 42
+        duration: 4
+        dynamic: 2
+        expression: 1
+        orderIn: 1
+        orderOut: 1
+  -
+    name: b4
+    duration: 20
+    notes:
+      -
+        midiNoteNum: 45
+        start: 0
+        duration: 5
+        dynamic: 7
+        expression: 1
+        orderIn: 2
+        orderOut: 3
+      -
+        midiNoteNum: 43
+        start: 5
+        duration: 4
+        dynamic: 7
+        expression: 1
+        orderIn: 5
+        orderOut: 2
+      -
+        midiNoteNum: 47
+        start: 9
+        duration: 5
+        dynamic: 7
+        expression: 1
+        orderIn: 1
+        orderOut: 5
+      -
+        midiNoteNum: 48
+        start: 14
+        duration: 3
+        dynamic: 7
+        expression: 1
+        orderIn: 3
+        orderOut: 4
+      -
+        midiNoteNum: 40
+        start: 17
+        duration: 3
+        dynamic: 7
+        expression: 1
+        orderIn: 4
+        orderOut: 1
+  -
+    name: c4
+    duration: 52
+    notes:
+      -
+        midiNoteNum: 42
+        start: 3
+        duration: 6
+        dynamic: 5
+        expression: 1
+        orderIn: 3
+        orderOut: 2
+      -
+        midiNoteNum: 52
+        start: 13
+        duration: 8
+        dynamic: 5
+        expression: 4
+        orderIn: 2
+        orderOut: 5
+      -
+        midiNoteNum: 45
+        start: 27
+        duration: 5
+        dynamic: 5
+        expression: 1
+        orderIn: 4
+        orderOut: 1
+      -
+        midiNoteNum: 50
+        start: 35
+        duration: 4
+        dynamic: 5
+        expression: 1
+        orderIn: 1
+        orderOut: 3
+      -
+        midiNoteNum: 49
+        start: 44
+        duration: 7
+        dynamic: 5
+        expression: 3
+        orderIn: 5
+        orderOut: 4
+sections: 
+  -
+    name: a4.1
+    startPattern: a4
+    steps: 4
+  -
+    name: ac4
+    startPattern: a4
+    endPattern: c4
+    steps: 5
+  -
+    name: c4
+    startPattern: c4
+    steps: 2
+  -
+    name: cb4
+    startPattern: c4
+    endPattern: b4
+    steps: 9
+  -
+    name: b4
+    startPattern: b4
+    steps: 3
+  -
+    name: ba4
+    startPattern: b4
+    endPattern: a4
+    steps: 13
+  -
+    name: a4.2
+    startPattern: a4
+    steps: 1

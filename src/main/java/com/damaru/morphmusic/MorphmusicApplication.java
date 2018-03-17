@@ -1,6 +1,7 @@
 package com.damaru.morphmusic;
 
 import java.io.File;
+import java.io.FileWriter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -16,23 +17,29 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 public class MorphmusicApplication implements CommandLineRunner {
 
     private Log log = LogFactory.getLog(MorphmusicApplication.class);
-    private Morpher morpher = new Morpher();
     
 	public static void main(String[] args)  {
 		SpringApplication.run(MorphmusicApplication.class, args);
 	}
 
+	/**
+	*   TODO make the 'Required: filename' error stand out more.
+	*/
     @Override
     public void run(String... args) throws Exception {
-        String filename = "midimorph.yaml";
         
-        if (args.length > 0) {
-            filename = args[0];
-        } else {
+        if (args.length == 0) {
             log.error("Required: filename");
             System.exit(1);
         }
 		
+        for (String filename : args) {
+        	runPart(filename);
+        }
+        
+    }
+    
+    private void runPart(String filename) throws Exception {
         String basename = filename;
         
         log.info("Loading file " + filename);
@@ -47,14 +54,16 @@ public class MorphmusicApplication implements CommandLineRunner {
         YAMLMapper mapper = new YAMLMapper();
         part = mapper.readValue(new File(filename), Part.class);
         log.warn("part: " + part);
+        File reportFile = new File(basename + ".txt");
+        FileWriter reportWriter = new FileWriter(reportFile);
         Morpher morpher = new Morpher();
-        morpher.process(part);
-        mapper.writeValue(new File(basename + ".out.yaml"), part);
+        morpher.process(part, reportWriter);
+        //mapper.writeValue(new File(basename + ".out.yaml"), part);
         Generator generator = new Generator();
         generator.setTempo(66);
         generator.generate(part);
         generator.writeFile(basename +".midi");
-        
+   	
     }
 }
 
