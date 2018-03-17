@@ -5,178 +5,210 @@ patterns:
     duration: 72
     notes:
       -
-        midiNum: 64
-        start: 12
+        midiNoteNum: 64
+        start: 29
         duration: 4
-        dynamic: 2
+        dynamic: 1
         expression: 2
         orderIn: 1
-        orderOut: 2
+        orderOut: 1
   -
-    name: b1
+    name: b2
     duration: 18
     notes:
       -
-        midiNum: 62
+        midiNoteNum: 65
         start: 0
+        duration: 1
+        dynamic: 4
+        expression: 1
+        orderIn: 10
+        orderOut: 10
+      -
+        midiNoteNum: 67
+        start: 1
         duration: 2
         dynamic: 4
         expression: 1
-        orderIn: 7
-        orderOut: 4
+        orderIn: 5
+        orderOut: 11
       -
-        midiNum: 69
-        start: 2
-        duration: 2
+        midiNoteNum: 71
+        start: 3
+        duration: 1
         dynamic: 4
         expression: 1
-        orderIn: 8
-        orderOut: 5
+        orderIn: 13
+        orderOut: 8
       -
-        midiNum: 72
+        midiNoteNum: 69
         start: 4
         duration: 2
-        dynamic: 6
-        expression: 1
-        orderIn: 8
-        orderOut: 9
-      -
-        midiNum: 76
-        start: 6
-        duration: 2
         dynamic: 4
         expression: 1
-        orderIn: 1
-        orderOut: 6
+        orderIn: 9
+        orderOut: 5
       -
-        midiNum: 74
+        midiNoteNum: 72
+        start: 6
+        duration: 1
+        dynamic: 4
+        expression: 1
+        orderIn: 8
+        orderOut: 3
+      -
+        midiNoteNum: 71
+        start: 7
+        duration: 1
+        dynamic: 4
+        expression: 1
+        orderIn: 11
+        orderOut: 4
+      -
+        midiNoteNum: 69
         start: 8
         duration: 1
         dynamic: 4
         expression: 1
         orderIn: 4
-        orderOut: 1
+        orderOut: 14
       -
-        midiNum: 69
+        midiNoteNum: 71
         start: 9
-        duration: 2
-        dynamic: 4
-        expression: 1
-        orderIn: 2
-        orderOut: 8
-      -
-        midiNum: 71
-        start: 11
-        duration: 2
-        dynamic: 6
-        expression: 1
-        orderIn: 4
-        orderOut: 7
-      -
-        midiNum: 72
-        start: 13
         duration: 1
         dynamic: 4
         expression: 1
-        orderIn: 5
-        orderOut: 2
-      -
-        midiNum: 67
-        start: 15
-        duration: 2
-        dynamic: 4
-        expression: 1
-        orderIn: 3
-        orderOut: 3
-  -
-    name: c1
-    duration: 52
-    notes:
-      -
-        midiNum: 88
-        start: 3
-        duration: 5
-        dynamic: 4
-        expression: 1
-        orderIn: 5
-        orderOut: 3
-      -
-        midiNum: 90
-        start: 10
-        duration: 7
-        dynamic: 4
-        expression: 1
         orderIn: 6
-        orderOut: 1
+        orderOut: 9
       -
-        midiNum: 84
-        start: 19
-        duration: 3
-        dynamic: 6
-        expression: 1
-        orderIn: 3
-        orderOut: 5
-      -
-        midiNum: 79
-        start: 27
-        duration: 3
+        midiNoteNum: 65
+        start: 10
+        duration: 1
         dynamic: 4
         expression: 1
         orderIn: 1
         orderOut: 7
       -
-        midiNum: 84
-        start: 33
-        duration: 4
+        midiNoteNum: 67
+        start: 11
+        duration: 1
+        dynamic: 4
+        expression: 1
+        orderIn: 12
+        orderOut: 13
+      -
+        midiNoteNum: 71
+        start: 12
+        duration: 1
         dynamic: 4
         expression: 1
         orderIn: 7
-        orderOut: 4
+        orderOut: 1
       -
-        midiNum: 73
-        start: 41
-        duration: 4
+        midiNoteNum: 64
+        start: 13
+        duration: 2
         dynamic: 4
         expression: 1
         orderIn: 2
-        orderOut: 6
+        orderOut: 2
       -
-        midiNum: 83
-        start: 47
-        duration: 3
+        midiNoteNum: 65
+        start: 15
+        duration: 1
         dynamic: 4
         expression: 1
+        orderIn: 15
+        orderOut: 12
+      -
+        midiNoteNum: 62
+        start: 16
+        duration: 2
+        dynamic: 4
+        expression: 1
+        orderIn: 3
+        orderOut: 6
+  -
+    name: c2
+    duration: 50
+    notes:
+      -
+        midiNoteNum: 86
+        start: 2
+        duration: 5
+        dynamic: 6
+        expression: 1
+        orderIn: 6
+        orderOut: 4
+      -
+        midiNoteNum: 83
+        start: 8
+        duration: 2
+        dynamic: 6
+        expression: 1
+        orderIn: 3
+        orderOut: 1
+      -
+        midiNoteNum: 78
+        start: 13
+        duration: 4
+        dynamic: 6
+        expression: 1
+        orderIn: 3
+        orderOut: 6
+      -
+        midiNoteNum: 73
+        start: 19
+        duration: 4
+        dynamic: 6
+        expression: 1
+        orderIn: 2
+        orderOut: 3
+      -
+        midiNoteNum: 81
+        start: 27
+        duration: 6
+        dynamic: 6
+        expression: 3
         orderIn: 4
-        orderOut: 2
+        orderOut: 5
+      -
+        midiNoteNum: 71
+        start: 36
+        duration: 10
+        dynamic: 6
+        expression: 4
+        orderIn: 1
+        orderOut: 3
 sections: 
   -
-    name: a1-1
-    startPattern: a1
-    steps: 7
+    name: a2.1
+    startPattern: a2
+    steps: 3
   -
-    name: ab1
-    startPattern: a1
-    endPattern: b1
-    steps: 27
+    name: ab2
+    startPattern: a2
+    endPattern: b2
+    steps: 33
   -
-    name: b1
-    startPattern: b1
-    steps: 8
+    name: b2
+    startPattern: b2
+    steps: 5
   -
-    name: bc1
-    startPattern: b1
-    endPattern: c1
-    steps: 19
+    name: bc2
+    startPattern: b2
+    endPattern: c2
+    steps: 21
   -
-    name: c1
-    startPattern: c1
-    steps: 2
+    name: c2
+    startPattern: c2
+    steps: 1
   -
-    name: ca1
-    startPattern: c1
-    endPattern: a1
-    steps: 11
+    name: ca2
+    startPattern: c2
+    endPattern: a2
+    steps: 12
   -
-    name: a1-2
-    startPattern: a1
+    name: a2.2
+    startPattern: a2
     steps: 2

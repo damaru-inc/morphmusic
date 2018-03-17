@@ -1,9 +1,16 @@
 package com.damaru.morphmusic.model;
 
+import com.damaru.midi.MidiUtil;
+
+/**
+ * TODO add the capability to express notes like C#3 instead of midinum.
+ * @author mike
+ *
+ */
 public class Note {
 
 	private String id;
-	private int midiNum;
+	private int midiNoteNum;
 	private int start;
 	private double proportionalStart;
 	private int duration;
@@ -19,7 +26,7 @@ public class Note {
 
 	public Note(Note note) {
 		id = note.getId();
-		midiNum = note.getMidiNum();
+		midiNoteNum = note.getMidiNoteNum();
 		start = note.getStart();
 		proportionalStart = note.getProportionalStart();
 		duration = note.getDuration();
@@ -38,12 +45,12 @@ public class Note {
 		this.id = id;
 	}
 
-	public int getMidiNum() {
-		return midiNum;
+	public int getMidiNoteNum() {
+		return midiNoteNum;
 	}
 
-	public void setMidiNum(int midiNum) {
-		this.midiNum = midiNum;
+	public void setMidiNoteNum(int midiNum) {
+		this.midiNoteNum = midiNum;
 	}
 
 	public int getStart() {
@@ -119,17 +126,18 @@ public class Note {
         return dynamic * 16 - 1; // max value: 127 for midi.
     }
     
+    public int getMidiStart() {
+        return MidiUtil.PULSES_PER_SIXTEENTH_NOTE * start;
+    }    
+    
     public int getMidiDuration() {
-        // assume for just today:
-        // duration is 16 notes
-        // speed is 66 bpm, * 4 = 264
-        return 264 * duration;
+        return MidiUtil.PULSES_PER_SIXTEENTH_NOTE * duration;
     }
 
 
 	@Override
 	public String toString() {
-		return String.format("Note [id=%12s m=%2d st=%3d %6.03f dur=%3d %6.03f in=%3d out=%d]", id, midiNum, start,
+		return String.format("Note [id=%12s m=%2d st=%3d %6.03f dur=%3d %6.03f in=%3d out=%d]", id, midiNoteNum, start,
 				proportionalStart, duration, proportionalDuration, orderIn, orderOut);
 	}
 

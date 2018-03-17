@@ -5,7 +5,7 @@ patterns:
     duration: 72
     notes:
       -
-        midiNum: 76
+        midiNoteNum: 76
         start: 12
         duration: 4
         dynamic: 2
@@ -13,7 +13,7 @@ patterns:
         orderIn: 1
         orderOut: 2
       -
-        midiNum: 76
+        midiNoteNum: 76
         start: 23
         duration: 2
         dynamic: 3
@@ -25,7 +25,7 @@ patterns:
     duration: 17
     notes:
       -
-        midiNum: 62
+        midiNoteNum: 62
         start: 0
         duration: 2
         dynamic: 4
@@ -33,7 +33,7 @@ patterns:
         orderIn: 7
         orderOut: 4
       -
-        midiNum: 69
+        midiNoteNum: 69
         start: 2
         duration: 2
         dynamic: 4
@@ -41,7 +41,7 @@ patterns:
         orderIn: 8
         orderOut: 5
       -
-        midiNum: 72
+        midiNoteNum: 72
         start: 4
         duration: 2
         dynamic: 6
@@ -49,7 +49,7 @@ patterns:
         orderIn: 8
         orderOut: 9
       -
-        midiNum: 76
+        midiNoteNum: 76
         start: 6
         duration: 2
         dynamic: 4
@@ -57,7 +57,7 @@ patterns:
         orderIn: 1
         orderOut: 6
       -
-        midiNum: 74
+        midiNoteNum: 74
         start: 8
         duration: 1
         dynamic: 4
@@ -65,7 +65,7 @@ patterns:
         orderIn: 4
         orderOut: 1
       -
-        midiNum: 69
+        midiNoteNum: 69
         start: 9
         duration: 2
         dynamic: 4
@@ -73,7 +73,7 @@ patterns:
         orderIn: 2
         orderOut: 8
       -
-        midiNum: 71
+        midiNoteNum: 71
         start: 11
         duration: 2
         dynamic: 6
@@ -81,7 +81,7 @@ patterns:
         orderIn: 4
         orderOut: 7
       -
-        midiNum: 72
+        midiNoteNum: 72
         start: 13
         duration: 1
         dynamic: 4
@@ -89,7 +89,7 @@ patterns:
         orderIn: 5
         orderOut: 2
       -
-        midiNum: 67
+        midiNoteNum: 67
         start: 15
         duration: 2
         dynamic: 4
@@ -101,7 +101,7 @@ patterns:
     duration: 52
     notes:
       -
-        midiNum: 88
+        midiNoteNum: 88
         start: 3
         duration: 5
         dynamic: 4
@@ -109,7 +109,7 @@ patterns:
         orderIn: 5
         orderOut: 3
       -
-        midiNum: 90
+        midiNoteNum: 90
         start: 10
         duration: 7
         dynamic: 4
@@ -117,7 +117,7 @@ patterns:
         orderIn: 6
         orderOut: 1
       -
-        midiNum: 84
+        midiNoteNum: 84
         start: 19
         duration: 3
         dynamic: 6
@@ -125,7 +125,7 @@ patterns:
         orderIn: 3
         orderOut: 5
       -
-        midiNum: 79
+        midiNoteNum: 79
         start: 27
         duration: 3
         dynamic: 4
@@ -133,7 +133,7 @@ patterns:
         orderIn: 1
         orderOut: 7
       -
-        midiNum: 84
+        midiNoteNum: 84
         start: 33
         duration: 4
         dynamic: 4
@@ -141,7 +141,7 @@ patterns:
         orderIn: 7
         orderOut: 4
       -
-        midiNum: 73
+        midiNoteNum: 73
         start: 41
         duration: 4
         dynamic: 4
@@ -149,7 +149,7 @@ patterns:
         orderIn: 2
         orderOut: 6
       -
-        midiNum: 83
+        midiNoteNum: 83
         start: 47
         duration: 3
         dynamic: 4

@@ -179,6 +179,7 @@ public class Morpher {
 		boolean valid = true;
 
 		// TODO check for the existence of patterns, sections and notes.
+		// TODO check to ensure ins and outs are consistent. Map<Integer, Integer> noteNumToOrderIn
 
 		for (Pattern p : part.getPatterns()) {
 			String name = p.getName();

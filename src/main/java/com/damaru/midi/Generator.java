@@ -24,7 +24,6 @@ public class Generator {
     private static Log log = LogFactory.getLog(Generator.class);
     private Sequence sequence;
     private Track track;
-    private long currentTick = 0;
     private int tempo = 60;
 
     public Generator() throws Exception {
@@ -42,10 +41,10 @@ public class Generator {
         setTempoOnTrack();
     }
 
-    public void setProgram(int program) throws Exception {
+    public void setProgram(int program, int tick) throws Exception {
         ShortMessage message = new ShortMessage();
         message.setMessage(ShortMessage.PROGRAM_CHANGE, program, program);
-        MidiEvent event = new MidiEvent(message, currentTick++);
+        MidiEvent event = new MidiEvent(message, tick);
         track.add(event);
     }
 
@@ -74,18 +73,9 @@ public class Generator {
         data[3] = (byte) val2;
         data[4] = (byte) val3;
         message.setMessage(0x51, data, 5);
-        MidiEvent event = new MidiEvent(message, currentTick);
+        MidiEvent event = new MidiEvent(message, 0);
         track.add(event);
     }
-
-    public void addNote(int key, int length, int velocity) throws Exception {
-        int duration = (int) (length * MidiUtil.LEGATO);
-        log.debug("key: " + key + " length: " + length + " vel: " + velocity + " currentTick: " + currentTick + " end: " + (currentTick + duration) + " duration: " + duration);
-        track.add(MidiUtil.createNoteOnEvent(key, velocity, currentTick));
-        track.add(MidiUtil.createNoteOffEvent(key, currentTick + duration));
-        currentTick += length;
-    }
-
 
     public void writeFile(String fileName) throws Exception {
         File outputFile = new File(fileName);
@@ -116,7 +106,10 @@ public class Generator {
     }
 
     public void generate(Note n) throws Exception {
-        addNote(n.getMidiNum(), n.getMidiDuration(), n.getVelocity());
+        log.debug("key: " + n.getMidiNoteNum() + " start: " + n.getStart() + " length: " + n.getDuration() + " vel: " + n.getVelocity());
+        int end = n.getMidiStart() + n.getMidiDuration();
+        track.add(MidiUtil.createNoteOnEvent(n.getMidiNoteNum(), n.getVelocity(), n.getMidiStart()));
+        track.add(MidiUtil.createNoteOffEvent(n.getMidiNoteNum(), end));
     }
 
 }

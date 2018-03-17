@@ -8,6 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.damaru.midi.Generator;
 import com.damaru.morphmusic.model.Part;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 
@@ -29,23 +30,30 @@ public class MorphmusicApplication implements CommandLineRunner {
             filename = args[0];
         } else {
             log.error("Required: filename");
-            return;
+            System.exit(1);
         }
 		
+        String basename = filename;
+        
         log.info("Loading file " + filename);
+        
+        int dot = filename.indexOf('.');
+        
+        if (dot > 0) {
+            basename = filename.substring(0,  dot);
+        }
 
         Part part = null;
-        
         YAMLMapper mapper = new YAMLMapper();
-        try {
-            part = mapper.readValue(new File(filename), Part.class);
-            log.info("part: " + part);
-            morpher.process(part);
-            mapper.writeValue(new File("out.yaml"), part);
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        part = mapper.readValue(new File(filename), Part.class);
+        log.warn("part: " + part);
+        Morpher morpher = new Morpher();
+        morpher.process(part);
+        mapper.writeValue(new File(basename + ".out.yaml"), part);
+        Generator generator = new Generator();
+        generator.setTempo(66);
+        generator.generate(part);
+        generator.writeFile(basename +".midi");
         
     }
 }
