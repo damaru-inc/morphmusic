@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.stereotype.Component;
 
 import com.damaru.morphmusic.model.Note;
 import com.damaru.morphmusic.model.Part;
@@ -54,7 +54,7 @@ public class Morpher {
 
 		log.info(String.format("Finished processing part %s currentPosition: %d", part.getName(), currentPosition));
 		notes.forEach(log::debug);
-		log.info("Finished dumping notes.");
+		log.info("Finished dumping " + notes.size() + " notes.");
 		part.setNotes(notes);
 	}
 
@@ -180,6 +180,7 @@ public class Morpher {
 
 		// TODO check for the existence of patterns, sections and notes.
 		// TODO check to ensure ins and outs are consistent. Map<Integer, Integer> noteNumToOrderIn
+		// TODO check for overlapping notes.
 
 		for (Pattern p : part.getPatterns()) {
 			String name = p.getName();
@@ -191,6 +192,42 @@ public class Morpher {
 				patternMap.put(name, p);
 			}
 			unreferencedPatterns.add(p);
+			
+			// Make sure we have all the ins and outs.
+			Set<Integer> ins = new HashSet<>();
+			Set<Integer> outs = new HashSet<>();
+			
+			int numNotes = p.getNotes().size();
+			
+			for (int i = 1; i <= numNotes; i++) {
+			    ins.add(i);
+			    outs.add(i);
+			}
+			
+			int i = 0;
+			for (Note n : p.getNotes()) {
+			    i++;
+			    int in = n.getOrderIn();
+			    int out = n.getOrderOut();
+			    
+			    if (!ins.remove(in)) {
+			        log.error("Pattern " + name + " note " + i + ": Duplicate orderIn: " + in);
+			        valid = false;
+			    }
+                if (!outs.remove(out)) {
+                    log.error("Pattern " + name + " note " + i + ": Duplicate orderOut: " + out);
+                    valid = false;
+                }
+			}
+			
+			for (Integer in : ins) {
+			    log.error("Pattern " + name + " Unused orderIn: " + in);
+			    valid = false;
+			}
+            for (Integer out : outs) {
+                log.error("Pattern " + name + " Unused orderOut: " + out);
+                valid = false;
+            }
 		}
 
 		for (Section s : part.getSections()) {

@@ -38,7 +38,7 @@ patterns:
         duration: 2
         dynamic: 4
         expression: 1
-        orderIn: 8
+        orderIn: 9
         orderOut: 5
       -
         midiNoteNum: 72
@@ -78,7 +78,7 @@ patterns:
         duration: 2
         dynamic: 6
         expression: 1
-        orderIn: 4
+        orderIn: 6
         orderOut: 7
       -
         midiNoteNum: 72
