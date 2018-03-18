@@ -48,8 +48,8 @@ public class Morpher {
 		for (Section section : part.getSections()) {
 		    String msg = String.format("Section %s start: %s ", section.getName(), MidiUtil.stringRep(currentPosition, part.getQuartersPerBar()));
 			log.info(msg);
-			reportWriter.write(msg);
-            reportWriter.write("\n");
+			//reportWriter.write(msg);
+            //reportWriter.write("\n");
 			if (section.getEndPattern() == null) {
 				currentPosition = repeatPattern(currentPosition, notes, section);
 			} else {

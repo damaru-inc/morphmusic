@@ -198,7 +198,7 @@ sections:
     name: cb3
     startPattern: c3
     endPattern: b3
-    steps: 5
+    steps: 4
   -
     name: b3
     startPattern: b3

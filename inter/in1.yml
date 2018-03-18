@@ -183,7 +183,7 @@ sections:
     name: ba1
     startPattern: b1
     endPattern: a1
-    steps: 5
+    steps: 6
   -
     name: a1-2
     startPattern: a1
