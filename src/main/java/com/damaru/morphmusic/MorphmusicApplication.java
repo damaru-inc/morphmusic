@@ -58,6 +58,8 @@ public class MorphmusicApplication implements CommandLineRunner {
         FileWriter reportWriter = new FileWriter(reportFile);
         Morpher morpher = new Morpher();
         morpher.process(part, reportWriter);
+        reportWriter.flush();
+        reportWriter.close();
         //mapper.writeValue(new File(basename + ".out.yaml"), part);
         Generator generator = new Generator();
         generator.setTempo(66);

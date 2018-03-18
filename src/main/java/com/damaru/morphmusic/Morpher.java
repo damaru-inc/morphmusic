@@ -10,6 +10,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.damaru.midi.MidiUtil;
 import com.damaru.morphmusic.model.Note;
 import com.damaru.morphmusic.model.Part;
 import com.damaru.morphmusic.model.Pattern;
@@ -21,8 +22,8 @@ public class Morpher {
 	private static final String ID_PATTERN = "%s-%02d";
 	private HashMap<String, Pattern> patternMap = new HashMap<>();
 
-	public void process(Part part, Writer reportWriter) throws MorpherException {
-		log.info("Processing part " + part.getName());
+	public void process(Part part, Writer reportWriter) throws MorpherException, Exception {
+		log.info("Processing part " + part.getName() + " quartersPerBeat: " + part.getQuartersPerBar());
 
 		validate(part);
 
@@ -45,16 +46,23 @@ public class Morpher {
 		int currentPosition = 0;
 
 		for (Section section : part.getSections()) {
-			log.info(String.format("Processing section %s currentPosition: %d ", section.getName(), currentPosition));
+		    String msg = String.format("Section %s start: %s ", section.getName(), MidiUtil.stringRep(currentPosition, part.getQuartersPerBar()));
+			log.info(msg);
+			reportWriter.write(msg);
+            reportWriter.write("\n");
 			if (section.getEndPattern() == null) {
 				currentPosition = repeatPattern(currentPosition, notes, section);
 			} else {
 				currentPosition = morphPatterns(currentPosition, notes, section);
 			}
+	        msg = String.format("Section %s end  : %s ", section.getName(), MidiUtil.stringRep(currentPosition, part.getQuartersPerBar()));
+	        log.info(msg);
+	        reportWriter.write(msg);
+	        reportWriter.write("\n");
 		}
 
 		log.info(String.format("Finished processing part %s currentPosition: %d", part.getName(), currentPosition));
-		notes.forEach(log::debug);
+		//notes.forEach(log::debug);
 		log.info("Finished dumping " + notes.size() + " notes.");
 		part.setNotes(notes);
 	}

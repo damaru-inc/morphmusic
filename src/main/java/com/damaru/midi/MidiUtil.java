@@ -37,6 +37,7 @@ public class MidiUtil {
     public static final int MIDDLE_C = 60; // midi note number.
     public static final double LEGATO = 0.9;
     public static final int PULSES_PER_SIXTEENTH_NOTE = MidiUtil.PPQ / 4;
+    
     private static Receiver currentReceiver;
 
     public static List<MidiDeviceValue> getMidiDevices() {
@@ -191,4 +192,16 @@ public class MidiUtil {
         return message;
     }
 
+    public static String stringRep(int midiPosition, int quartersPerBar) {
+        int pulsesPerBar = PPQ * quartersPerBar;
+        int bars = midiPosition / pulsesPerBar;
+        int remainder = midiPosition - (bars * pulsesPerBar);
+        int quarters = remainder / PPQ;
+        remainder -= quarters * PPQ;
+        int sixteenths = remainder / PULSES_PER_SIXTEENTH_NOTE;
+        remainder -= sixteenths * PULSES_PER_SIXTEENTH_NOTE;
+        
+        String ret = String.format("%d.%d.%d.%03d %5d", bars+1, quarters+1, sixteenths + 1, remainder, midiPosition);
+        return ret;
+    }
 }

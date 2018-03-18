@@ -189,16 +189,16 @@ sections:
     name: ac2
     startPattern: a2
     endPattern: c2
-    steps: 6
+    steps: 5
   -
     name: c2
     startPattern: c2
-    steps: 1
+    steps: 3
   -
     name: cb2
     startPattern: c2
     endPattern: b2
-    steps: 11
+    steps: 5
   -
     name: b2
     startPattern: b2
@@ -207,8 +207,8 @@ sections:
     name: ba2
     startPattern: b2
     endPattern: a2
-    steps: 17
+    steps: 5
   -
     name: a2.2
     startPattern: a2
-    steps: 1
+    steps: 2

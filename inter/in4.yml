@@ -112,7 +112,7 @@ sections:
   -
     name: a4.1
     startPattern: a4
-    steps: 4
+    steps: 2
   -
     name: ac4
     startPattern: a4
@@ -121,12 +121,12 @@ sections:
   -
     name: c4
     startPattern: c4
-    steps: 2
+    steps: 3
   -
     name: cb4
     startPattern: c4
     endPattern: b4
-    steps: 9
+    steps: 5
   -
     name: b4
     startPattern: b4
@@ -135,8 +135,8 @@ sections:
     name: ba4
     startPattern: b4
     endPattern: a4
-    steps: 13
+    steps: 5
   -
     name: a4.2
     startPattern: a4
-    steps: 1
+    steps: 2

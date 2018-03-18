@@ -160,30 +160,30 @@ sections:
   -
     name: a1-1
     startPattern: a1
-    steps: 4
+    steps: 2
   -
     name: ac1
     startPattern: a1
     endPattern: c1
-    steps: 6
+    steps: 5
   -
     name: c1
     startPattern: c1
-    steps: 2
+    steps: 3
   -
     name: cb1
     startPattern: c1
     endPattern: b1
-    steps: 10
+    steps: 5
   -
     name: b1
     startPattern: b1
-    steps: 8
+    steps: 3
   -
     name: ba1
     startPattern: b1
     endPattern: a1
-    steps: 14
+    steps: 5
   -
     name: a1-2
     startPattern: a1

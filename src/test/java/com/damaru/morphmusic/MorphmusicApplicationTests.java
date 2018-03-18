@@ -1,6 +1,7 @@
 package com.damaru.morphmusic;
 
 import java.io.File;
+import java.io.FileWriter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -41,8 +42,12 @@ public class MorphmusicApplicationTests {
         YAMLMapper mapper = new YAMLMapper();
         part = mapper.readValue(new File(filename), Part.class);
         log.warn("part: " + part);
+        File report = new File(basename + ".txt");
+        FileWriter reportWriter = new FileWriter(report);
         Morpher morpher = new Morpher();
-        morpher.process(part);
+        morpher.process(part, reportWriter);
+        reportWriter.flush();
+        reportWriter.close();
         mapper.writeValue(new File(basename + ".out.yaml"), part);
         Generator generator = new Generator();
         generator.setTempo(66);

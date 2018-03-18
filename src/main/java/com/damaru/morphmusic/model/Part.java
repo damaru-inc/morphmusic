@@ -7,6 +7,7 @@ public class Part {
     private List<Pattern> patterns;
     private List<Section> sections;
     private List<Note> notes;
+    private int quartersPerBar = 4;
 
     public String getName() {
         return name;
@@ -43,6 +44,14 @@ public class Part {
 
     public void setNotes(List<Note> notes) {
         this.notes = notes;
+    }
+
+    public int getQuartersPerBar() {
+        return quartersPerBar;
+    }
+
+    public void setQuartersPerBar(int quartersPerBar) {
+        this.quartersPerBar = quartersPerBar;
     }
 
     @Override
