@@ -1,5 +1,7 @@
 package com.damaru.midi;
 
+import static org.mockito.Matchers.intThat;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,11 +23,18 @@ import javax.sound.midi.Transmitter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.damaru.morphmusic.Config;
+import com.damaru.morphmusic.model.Part;
+import com.damaru.morphmusic.model.Piece;
 
 /**
  *
  * @author mdavis
  */
+@Component
 public class MidiUtil {
 
     private static Log log = LogFactory.getLog(MidiUtil.class);
@@ -39,6 +48,9 @@ public class MidiUtil {
     public static final int PULSES_PER_SIXTEENTH_NOTE = MidiUtil.PPQ / 4;
     
     private static Receiver currentReceiver;
+    
+    @Autowired
+    Config config;
 
     public static List<MidiDeviceValue> getMidiDevices() {
         List<MidiDeviceValue> ret = new ArrayList<>();
@@ -191,9 +203,33 @@ public class MidiUtil {
                 velocity);
         return message;
     }
-
-    public static String stringRep(int midiPosition, int quartersPerBar) {
-        int pulsesPerBar = PPQ * quartersPerBar;
+    
+    /**
+     * TODO write a unit test for getPulsesPerUnitOfMeasurement
+     * @param piece
+     * @return
+     */
+    public static int getPulsesPerUnitOfMeasurement(Piece piece) {
+        int ret = 1;
+        
+        int unitOfMeasurement = piece.getUnitOfMeasurement();
+        
+        if (unitOfMeasurement > 0) {
+            ret = (int) (PPQ / (double) (unitOfMeasurement / 4));
+        }
+        
+        return ret;
+    }
+// currentPosition * MidiUtil.PULSES_PER_SIXTEENTH_NOTE, part.getQuartersPerBar()
+    public static String stringRep(int position, Part part) {
+        int midiPosition = position;
+        Piece piece = part.getPiece();
+        
+        // TODO finish stringRep
+        if (!piece.isUseMidiPulseAsUnitOfMeasure()) {
+            int m = getPulsesPerUnitOfMeasurement(piece);
+        }
+        int pulsesPerBar = PPQ * part.getQuartersPerBar();
         int bars = midiPosition / pulsesPerBar;
         int remainder = midiPosition - (bars * pulsesPerBar);
         int quarters = remainder / PPQ;
@@ -202,6 +238,15 @@ public class MidiUtil {
         remainder -= sixteenths * PULSES_PER_SIXTEENTH_NOTE;
         
         String ret = String.format("%d.%d.%d.%03d %5d", bars+1, quarters+1, sixteenths + 1, remainder, midiPosition);
+        return ret;
+    }
+    
+    /**
+     * TODO write convertToMidiPulses
+     */
+    public int convertToMidiPulses(Part part, int value) {
+        
+        int ret = value;
         return ret;
     }
 }

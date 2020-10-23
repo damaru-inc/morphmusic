@@ -1,0 +1,770 @@
+name: interpolations
+tempo: 66
+unitOfMeasurement: 16
+timeSignatureUnits: 4
+timeSignatureDivision: 4
+parts:
+  -
+    name: inter-1
+    patterns:
+    - 
+      name: a1
+      duration: 72
+      notes:
+      -
+        midiNoteNum: 76
+        start: 12
+        duration: 4
+        dynamic: 2
+        expression: 2
+        orderIn: 2
+        orderOut: 1
+      -
+        midiNoteNum: 76
+        start: 23
+        duration: 2
+        dynamic: 3
+        expression: 2
+        orderIn: 1
+        orderOut: 2
+    -
+      name: b1
+      duration: 17
+      notes:
+      -
+        midiNoteNum: 62
+        start: 0
+        duration: 2
+        dynamic: 4
+        expression: 1
+        orderIn: 4
+        orderOut: 7
+      -
+        midiNoteNum: 69
+        start: 2
+        duration: 2
+        dynamic: 4
+        expression: 1
+        orderIn: 5
+        orderOut: 9
+      -
+        midiNoteNum: 72
+        start: 4
+        duration: 2
+        dynamic: 6
+        expression: 1
+        orderIn: 9
+        orderOut: 8
+      -
+        midiNoteNum: 76
+        start: 6
+        duration: 2
+        dynamic: 4
+        expression: 1
+        orderIn: 6
+        orderOut: 1
+      -
+        midiNoteNum: 74
+        start: 8
+        duration: 1
+        dynamic: 4
+        expression: 1
+        orderIn: 1
+        orderOut: 4
+      -
+        midiNoteNum: 69
+        start: 9
+        duration: 2
+        dynamic: 4
+        expression: 1
+        orderIn: 8
+        orderOut: 2
+      -
+        midiNoteNum: 71
+        start: 11
+        duration: 2
+        dynamic: 6
+        expression: 1
+        orderIn: 7
+        orderOut: 6
+      -
+        midiNoteNum: 72
+        start: 13
+        duration: 1
+        dynamic: 4
+        expression: 1
+        orderIn: 2
+        orderOut: 5
+      -
+        midiNoteNum: 67
+        start: 15
+        duration: 2
+        dynamic: 4
+        expression: 1
+        orderIn: 3
+        orderOut: 3
+    -
+      name: c1
+      duration: 52
+      notes:
+      -
+        midiNoteNum: 88
+        start: 3
+        duration: 5
+        dynamic: 4
+        expression: 1
+        orderIn: 3
+        orderOut: 5
+      -
+        midiNoteNum: 90
+        start: 10
+        duration: 7
+        dynamic: 4
+        expression: 1
+        orderIn: 1
+        orderOut: 6
+      -
+        midiNoteNum: 84
+        start: 19
+        duration: 3
+        dynamic: 6
+        expression: 1
+        orderIn: 5
+        orderOut: 3
+      -
+        midiNoteNum: 79
+        start: 27
+        duration: 3
+        dynamic: 4
+        expression: 1
+        orderIn: 7
+        orderOut: 1
+      -
+        midiNoteNum: 84
+        start: 33
+        duration: 4
+        dynamic: 4
+        expression: 1
+        orderIn: 4
+        orderOut: 7
+      -
+        midiNoteNum: 73
+        start: 41
+        duration: 4
+        dynamic: 4
+        expression: 1
+        orderIn: 6
+        orderOut: 2
+      -
+        midiNoteNum: 83
+        start: 47
+        duration: 3
+        dynamic: 4
+        expression: 1
+        orderIn: 2
+        orderOut: 4
+    sections: 
+    -
+      name: a1-1
+      startPattern: a1
+      steps: 2
+    -
+      name: ac1
+      startPattern: a1
+      endPattern: c1
+      steps: 5
+    -
+      name: c1
+      startPattern: c1
+      steps: 3
+    -
+      name: cb1
+      startPattern: c1
+      endPattern: b1
+      steps: 5
+    -
+      name: b1
+      startPattern: b1
+      steps: 3
+    -
+      name: ba1
+      startPattern: b1
+      endPattern: a1
+      steps: 6
+    -
+      name: a1-2
+      startPattern: a1
+      steps: 2
+  -
+    name: inter-2
+    patterns:
+    - 
+      name: a2
+      duration: 72
+      notes:
+      -
+        midiNoteNum: 64
+        start: 29
+        duration: 4
+        dynamic: 1
+        expression: 2
+        orderIn: 1
+        orderOut: 1
+    -
+      name: b2
+      duration: 18
+      notes:
+      -
+        midiNoteNum: 65
+        start: 0
+        duration: 1
+        dynamic: 4
+        expression: 1
+        orderIn: 10
+        orderOut: 10
+      -
+        midiNoteNum: 67
+        start: 1
+        duration: 2
+        dynamic: 4
+        expression: 1
+        orderIn: 11
+        orderOut: 5
+      -
+        midiNoteNum: 71
+        start: 3
+        duration: 1
+        dynamic: 4
+        expression: 1
+        orderIn: 8
+        orderOut: 13
+      -
+        midiNoteNum: 69
+        start: 4
+        duration: 2
+        dynamic: 4
+        expression: 1
+        orderIn: 5
+        orderOut: 9
+      -
+        midiNoteNum: 72
+        start: 6
+        duration: 1
+        dynamic: 4
+        expression: 1
+        orderIn: 3
+        orderOut: 8
+      -
+        midiNoteNum: 71
+        start: 7
+        duration: 1
+        dynamic: 4
+        expression: 1
+        orderIn: 4
+        orderOut: 11
+      -
+        midiNoteNum: 69
+        start: 8
+        duration: 1
+        dynamic: 4
+        expression: 1
+        orderIn: 14
+        orderOut: 4
+      -
+        midiNoteNum: 71
+        start: 9
+        duration: 1
+        dynamic: 4
+        expression: 1
+        orderIn: 9
+        orderOut: 6
+      -
+        midiNoteNum: 65
+        start: 10
+        duration: 1
+        dynamic: 4
+        expression: 1
+        orderIn: 7
+        orderOut: 1
+      -
+        midiNoteNum: 67
+        start: 11
+        duration: 1
+        dynamic: 4
+        expression: 1
+        orderIn: 13
+        orderOut: 12
+      -
+        midiNoteNum: 71
+        start: 12
+        duration: 1
+        dynamic: 4
+        expression: 1
+        orderIn: 1
+        orderOut: 7
+      -
+        midiNoteNum: 64
+        start: 13
+        duration: 2
+        dynamic: 4
+        expression: 1
+        orderIn: 2
+        orderOut: 2
+      -
+        midiNoteNum: 65
+        start: 15
+        duration: 1
+        dynamic: 4
+        expression: 1
+        orderIn: 12
+        orderOut: 14
+      -
+        midiNoteNum: 62
+        start: 16
+        duration: 2
+        dynamic: 4
+        expression: 1
+        orderIn: 6
+        orderOut: 3
+    -
+      name: c2
+      duration: 50
+      notes:
+      -
+        midiNoteNum: 86
+        start: 2
+        duration: 5
+        dynamic: 6
+        expression: 1
+        orderIn: 4
+        orderOut: 6
+      -
+        midiNoteNum: 83
+        start: 8
+        duration: 2
+        dynamic: 6
+        expression: 1
+        orderIn: 1
+        orderOut: 5
+      -
+        midiNoteNum: 78
+        start: 13
+        duration: 4
+        dynamic: 6
+        expression: 1
+        orderIn: 6
+        orderOut: 3
+      -
+        midiNoteNum: 73
+        start: 19
+        duration: 4
+        dynamic: 6
+        expression: 1
+        orderIn: 2
+        orderOut: 2
+      -
+        midiNoteNum: 81
+        start: 27
+        duration: 6
+        dynamic: 6
+        expression: 3
+        orderIn: 5
+        orderOut: 4
+      -
+        midiNoteNum: 71
+        start: 36
+        duration: 10
+        dynamic: 6
+        expression: 4
+        orderIn: 3
+        orderOut: 1
+    sections: 
+    -
+      name: a2.1
+      startPattern: a2
+      steps: 2
+    -
+      name: ac2
+      startPattern: a2
+      endPattern: c2
+      steps: 5
+    -
+      name: c2
+      startPattern: c2
+      steps: 3
+    -
+      name: cb2
+      startPattern: c2
+      endPattern: b2
+      steps: 5
+    -
+      name: b2
+      startPattern: b2
+      steps: 3
+    -
+      name: ba2
+      startPattern: b2
+      endPattern: a2
+      steps: 6
+    -
+      name: a2.2
+      startPattern: a2
+      steps: 2
+  -
+    name: inter-3
+    patterns:
+    - 
+      name: a3
+      duration: 72
+      notes:
+      -
+        midiNoteNum: 52
+        start: 0
+        duration: 4
+        dynamic: 3
+        expression: 1
+        orderIn: 1
+        orderOut: 3
+      -
+        midiNoteNum: 52
+        start: 26
+        duration: 1
+        dynamic: 2
+        expression: 1
+        orderIn: 2
+        orderOut: 2
+      -
+        midiNoteNum: 52
+        start: 63
+        duration: 1
+        dynamic: 1
+        expression: 2
+        orderIn: 3
+        orderOut: 1
+    -
+      name: b3
+      duration: 21
+      notes:
+      -
+        midiNoteNum: 52
+        start: 0
+        duration: 3
+        dynamic: 7
+        expression: 1
+        orderIn: 1
+        orderOut: 2
+      -
+        midiNoteNum: 53
+        start: 3
+        duration: 2
+        dynamic: 7
+        expression: 1
+        orderIn: 5
+        orderOut: 9
+      -
+        midiNoteNum: 50
+        start: 5
+        duration: 2
+        dynamic: 7
+        expression: 1
+        orderIn: 9
+        orderOut: 7
+      -
+        midiNoteNum: 57
+        start: 7
+        duration: 1
+        dynamic: 7
+        expression: 1
+        orderIn: 2
+        orderOut: 10
+      -
+        midiNoteNum: 60
+        start: 8
+        duration: 2
+        dynamic: 7
+        expression: 1
+        orderIn: 7
+        orderOut: 3
+      -
+        midiNoteNum: 55
+        start: 10
+        duration: 1
+        dynamic: 7
+        expression: 1
+        orderIn: 6
+        orderOut: 8
+      -
+        midiNoteNum: 52
+        start: 11
+        duration: 1
+        dynamic: 7
+        expression: 1
+        orderIn: 10
+        orderOut: 5
+      -
+        midiNoteNum: 50
+        start: 12
+        duration: 2
+        dynamic: 7
+        expression: 1
+        orderIn: 3
+        orderOut: 4
+      -
+        midiNoteNum: 57
+        start: 14
+        duration: 3
+        dynamic: 7
+        expression: 1
+        orderIn: 4
+        orderOut: 1
+      -
+        midiNoteNum: 53
+        start: 17
+        duration: 4
+        dynamic: 7
+        expression: 1
+        orderIn: 8
+        orderOut: 6
+    -
+      name: c3
+      duration: 57
+      notes:
+      -
+        midiNoteNum: 55
+        start: 0
+        duration: 3
+        dynamic: 5
+        expression: 1
+        orderIn: 6
+        orderOut: 2
+      -
+        midiNoteNum: 62
+        start: 5
+        duration: 3
+        dynamic: 5
+        expression: 4
+        orderIn: 8
+        orderOut: 1
+      -
+        midiNoteNum: 64
+        start: 10
+        duration: 5
+        dynamic: 5
+        expression: 1
+        orderIn: 2
+        orderOut: 5
+      -
+        midiNoteNum: 61
+        start: 18
+        duration: 3
+        dynamic: 5
+        expression: 1
+        orderIn: 1
+        orderOut: 3
+      -
+        midiNoteNum: 67
+        start: 23
+        duration: 2
+        dynamic: 5
+        expression: 1
+        orderIn: 4
+        orderOut: 7
+      -
+        midiNoteNum: 66
+        start: 27
+        duration: 5
+        dynamic: 5
+        expression: 1
+        orderIn: 7
+        orderOut: 6
+      -
+        midiNoteNum: 59
+        start: 35
+        duration: 7
+        dynamic: 5
+        expression: 3
+        orderIn: 3
+        orderOut: 4
+      -
+        midiNoteNum: 69
+        start: 47
+        duration: 4
+        dynamic: 5
+        expression: 1
+        orderIn: 5
+        orderOut: 8
+    sections: 
+    -
+      name: a3.1
+      startPattern: a3
+      steps: 2
+    -
+      name: ac3
+      startPattern: a3
+      endPattern: c3
+      steps: 5
+    -
+      name: c3
+      startPattern: c3
+      steps: 3
+    -
+      name: cb3
+      startPattern: c3
+      endPattern: b3
+      steps: 4
+    -
+      name: b3
+      startPattern: b3
+      steps: 3
+    -
+      name: ba3
+      startPattern: b3
+      endPattern: a3
+      steps: 5
+    -
+      name: a3.2
+      startPattern: a3
+      steps: 2
+  -
+    name: inter-4
+    patterns:
+    - 
+      name: a4
+      duration: 72
+      notes:
+      -
+        midiNoteNum: 40
+        start: 15
+        duration: 2
+        dynamic: 3
+        expression: 1
+        orderIn: 2
+        orderOut: 2
+      -
+        midiNoteNum: 40
+        start: 42
+        duration: 4
+        dynamic: 2
+        expression: 1
+        orderIn: 1
+        orderOut: 1
+    -
+      name: b4
+      duration: 20
+      notes:
+      -
+        midiNoteNum: 45
+        start: 0
+        duration: 5
+        dynamic: 7
+        expression: 1
+        orderIn: 2
+        orderOut: 3
+      -
+        midiNoteNum: 43
+        start: 5
+        duration: 4
+        dynamic: 7
+        expression: 1
+        orderIn: 5
+        orderOut: 2
+      -
+        midiNoteNum: 47
+        start: 9
+        duration: 5
+        dynamic: 7
+        expression: 1
+        orderIn: 1
+        orderOut: 5
+      -
+        midiNoteNum: 48
+        start: 14
+        duration: 3
+        dynamic: 7
+        expression: 1
+        orderIn: 3
+        orderOut: 4
+      -
+        midiNoteNum: 40
+        start: 17
+        duration: 3
+        dynamic: 7
+        expression: 1
+        orderIn: 4
+        orderOut: 1
+    -
+      name: c4
+      duration: 52
+      notes:
+      -
+        midiNoteNum: 42
+        start: 3
+        duration: 6
+        dynamic: 5
+        expression: 1
+        orderIn: 3
+        orderOut: 2
+      -
+        midiNoteNum: 52
+        start: 13
+        duration: 8
+        dynamic: 5
+        expression: 4
+        orderIn: 2
+        orderOut: 5
+      -
+        midiNoteNum: 45
+        start: 27
+        duration: 5
+        dynamic: 5
+        expression: 1
+        orderIn: 4
+        orderOut: 1
+      -
+        midiNoteNum: 50
+        start: 35
+        duration: 4
+        dynamic: 5
+        expression: 1
+        orderIn: 1
+        orderOut: 3
+      -
+        midiNoteNum: 49
+        start: 44
+        duration: 7
+        dynamic: 5
+        expression: 3
+        orderIn: 5
+        orderOut: 4
+    sections: 
+    -
+      name: a4.1
+      startPattern: a4
+      steps: 2
+    -
+      name: ac4
+      startPattern: a4
+      endPattern: c4
+      steps: 5
+    -
+      name: c4
+      startPattern: c4
+      steps: 3
+    -
+      name: cb4
+      startPattern: c4
+      endPattern: b4
+      steps: 5
+    -
+      name: b4
+      startPattern: b4
+      steps: 3
+    -
+      name: ba4
+      startPattern: b4
+      endPattern: a4
+      steps: 5
+    -
+      name: a4.2
+      startPattern: a4
+      steps: 2

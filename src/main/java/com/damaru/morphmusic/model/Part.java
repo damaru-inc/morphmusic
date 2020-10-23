@@ -3,11 +3,20 @@ package com.damaru.morphmusic.model;
 import java.util.List;
 
 public class Part {
+    private Piece piece;
     private String name;
     private List<Pattern> patterns;
     private List<Section> sections;
     private List<Note> notes;
     private int quartersPerBar = 4;
+
+    public Piece getPiece() {
+        return piece;
+    }
+
+    public void setPiece(Piece piece) {
+        this.piece = piece;
+    }
 
     public String getName() {
         return name;

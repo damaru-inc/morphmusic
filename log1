@@ -1,0 +1,36 @@
+2018-03-11 22:21:07.214  WARN 7248 --- [           main] c.d.m.MorphmusicApplicationTests         : part: Part [name=part 1, patterns=[Pattern [name=p1, duration=16], Pattern [name=p2, duration=32]], sections=[Section [name=s1, startPattern=p1, endPattern=null, steps=1], Section [name=s2, startPattern=p1, endPattern=p2, steps=3], Section [name=s3, startPattern=p2, endPattern=null, steps=1]]]
+2018-03-11 22:21:07.214  INFO 7248 --- [           main] com.damaru.morphmusic.Morpher            : Processing part part 1
+2018-03-11 22:21:07.214  INFO 7248 --- [           main] com.damaru.morphmusic.Morpher            : The input file is valid.
+2018-03-11 22:21:07.215  INFO 7248 --- [           main] com.damaru.morphmusic.Morpher            : proc: 16 0.000000 0.250000
+2018-03-11 22:21:07.216  INFO 7248 --- [           main] com.damaru.morphmusic.Morpher            : proc: 16 0.250000 0.250000
+2018-03-11 22:21:07.216  INFO 7248 --- [           main] com.damaru.morphmusic.Morpher            : proc: 16 0.500000 0.250000
+2018-03-11 22:21:07.216  INFO 7248 --- [           main] com.damaru.morphmusic.Morpher            : proc: 16 0.750000 0.250000
+2018-03-11 22:21:07.216  INFO 7248 --- [           main] com.damaru.morphmusic.Morpher            : proc: 32 0.000000 0.125000
+2018-03-11 22:21:07.216  INFO 7248 --- [           main] com.damaru.morphmusic.Morpher            : proc: 32 0.250000 0.125000
+2018-03-11 22:21:07.217  INFO 7248 --- [           main] com.damaru.morphmusic.Morpher            : proc: 32 0.500000 0.125000
+2018-03-11 22:21:07.217  INFO 7248 --- [           main] com.damaru.morphmusic.Morpher            : proc: 32 0.750000 0.125000
+2018-03-11 22:21:07.217  INFO 7248 --- [           main] com.damaru.morphmusic.Morpher            : Processing section s1 currentPosition: 0 
+2018-03-11 22:21:07.217  INFO 7248 --- [           main] com.damaru.morphmusic.Morpher            : repeatPattern p1 currentPosition 0 duration 16 steps 1
+2018-03-11 22:21:07.217  INFO 7248 --- [           main] com.damaru.morphmusic.Morpher            : Processing section s2 currentPosition: 16 
+2018-03-11 22:21:07.217  INFO 7248 --- [           main] com.damaru.morphmusic.Morpher            : durationDiff: 16 durationFactor: 2.000000 currentPosition: 16
+2018-03-11 22:21:07.218  INFO 7248 --- [           main] com.damaru.morphmusic.Morpher            : step: 0 pos: 16 pc: 0.250000 dur: 20 startNotes: 3 endNotes: 1
+2018-03-11 22:21:07.218  INFO 7248 --- [           main] com.damaru.morphmusic.Morpher            : p1 5.000000 5 5.000000 5
+2018-03-11 22:21:07.219  INFO 7248 --- [           main] com.damaru.morphmusic.Morpher            : p1 10.000000 10 5.000000 5
+2018-03-11 22:21:07.219  INFO 7248 --- [           main] com.damaru.morphmusic.Morpher            : p1 15.000000 15 5.000000 5
+2018-03-11 22:21:07.219  INFO 7248 --- [           main] com.damaru.morphmusic.Morpher            : p1 0.000000 0 2.500000 3
+2018-03-11 22:21:07.220  INFO 7248 --- [           main] com.damaru.morphmusic.Morpher            : step: 1 pos: 36 pc: 0.500000 dur: 24 startNotes: 2 endNotes: 2
+2018-03-11 22:21:07.221  INFO 7248 --- [           main] com.damaru.morphmusic.Morpher            : p1 12.000000 12 6.000000 6
+2018-03-11 22:21:07.221  INFO 7248 --- [           main] com.damaru.morphmusic.Morpher            : p1 18.000000 18 6.000000 6
+2018-03-11 22:21:07.221  INFO 7248 --- [           main] com.damaru.morphmusic.Morpher            : p1 0.000000 0 3.000000 3
+2018-03-11 22:21:07.221  INFO 7248 --- [           main] com.damaru.morphmusic.Morpher            : p1 6.000000 6 3.000000 3
+2018-03-11 22:21:07.221  INFO 7248 --- [           main] com.damaru.morphmusic.Morpher            : step: 2 pos: 60 pc: 0.750000 dur: 28 startNotes: 1 endNotes: 3
+2018-03-11 22:21:07.222  INFO 7248 --- [           main] com.damaru.morphmusic.Morpher            : p1 21.000000 21 7.000000 7
+2018-03-11 22:21:07.222  INFO 7248 --- [           main] com.damaru.morphmusic.Morpher            : p1 0.000000 0 3.500000 4
+2018-03-11 22:21:07.222  INFO 7248 --- [           main] com.damaru.morphmusic.Morpher            : p1 7.000000 7 3.500000 4
+2018-03-11 22:21:07.222  INFO 7248 --- [           main] com.damaru.morphmusic.Morpher            : p1 14.000000 14 3.500000 4
+2018-03-11 22:21:07.222  INFO 7248 --- [           main] com.damaru.morphmusic.Morpher            : Processing section s3 currentPosition: 88 
+2018-03-11 22:21:07.222  INFO 7248 --- [           main] com.damaru.morphmusic.Morpher            : repeatPattern p2 currentPosition 88 duration 32 steps 1
+2018-03-11 22:21:07.223  INFO 7248 --- [           main] com.damaru.morphmusic.Morpher            : Finished processing part part 1 currentPosition: 120
+2018-03-11 22:21:07.223  INFO 7248 --- [           main] com.damaru.morphmusic.Morpher            : Finished dumping notes.
+2018-03-11 22:21:07.274  INFO 7248 --- [       Thread-2] s.c.a.AnnotationConfigApplicationContext : Closing org.springframework.context.annotation.AnnotationConfigApplicationContext@55182842: startup date [Sun Mar 11 22:21:06 EDT 2018]; root of context hierarchy
+

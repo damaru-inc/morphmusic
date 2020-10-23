@@ -1,7 +1,5 @@
 package com.damaru.morphmusic.model;
 
-import com.damaru.midi.MidiUtil;
-
 /**
  * TODO add the capability to express notes like C#3 instead of midinum.
  * @author mike
@@ -13,8 +11,10 @@ public class Note {
 	private int midiNoteNum;
 	private int start;
 	private double proportionalStart;
+	private int midiStart;
 	private int duration;
 	private double proportionalDuration;
+	private int midiDuration;
 	private int dynamic;
 	private int expression;
 	private int orderIn;
@@ -126,12 +126,15 @@ public class Note {
         return dynamic * 16 - 1; // max value: 127 for midi.
     }
     
+    /**
+     * TODO Where do these get set?
+     */
     public int getMidiStart() {
-        return MidiUtil.PULSES_PER_SIXTEENTH_NOTE * start;
+        return midiStart; // MidiUtil.PULSES_PER_SIXTEENTH_NOTE * start;
     }    
     
     public int getMidiDuration() {
-        return MidiUtil.PULSES_PER_SIXTEENTH_NOTE * duration;
+        return midiDuration; // MidiUtil.PULSES_PER_SIXTEENTH_NOTE * duration;
     }
 
 

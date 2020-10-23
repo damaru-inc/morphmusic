@@ -1,0 +1,7 @@
+Section a3.1 end  : 10.1.1.000 17280 
+Section ac3 end  : 30.2.1.000 56160 
+Section c3 end  : 40.4.4.000 76680 
+Section cb3 end  : 50.3.4.000 95400 
+Section b3 end  : 54.3.3.000 102960 
+Section ba3 end  : 69.1.4.000 130920 
+Section a3.2 end  : 78.1.4.000 148200 
