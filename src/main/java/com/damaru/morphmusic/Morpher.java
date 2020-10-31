@@ -1,5 +1,6 @@
 package com.damaru.morphmusic;
 
+import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,8 +8,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.damaru.midi.MidiUtil;
@@ -16,19 +17,21 @@ import com.damaru.morphmusic.model.Note;
 import com.damaru.morphmusic.model.Part;
 import com.damaru.morphmusic.model.Pattern;
 import com.damaru.morphmusic.model.Section;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Morpher {
 
-    private Log log = LogFactory.getLog(Morpher.class);
+    private static Logger log = LoggerFactory.getLogger(Morpher.class);
     private static final String ID_PATTERN = "%s-%02d";
     private HashMap<String, Pattern> patternMap = new HashMap<>();
 
     @Autowired
     Config config;
 
-    public void process(Part part, Writer reportWriter) throws MorpherException, Exception {
+    public void process(Part part, Writer reportWriter) throws MorpherException, IOException {
         log.info("Processing part " + part.getName() + " quartersPerBeat: " + part.getQuartersPerBar());
-
+        log.info("Config: " + config);
         validate(part);
 
         for (Pattern pattern : part.getPatterns()) {
@@ -42,7 +45,7 @@ public class Morpher {
                 note.setProportionalStart(proportionalStart);
                 double proportionalDuration = note.getDuration() / (double) patternDuration;
                 note.setProportionalDuration(proportionalDuration);
-                log.info(String.format("proc: %d %f %f", patternDuration, proportionalStart, proportionalDuration));
+                log.debug(String.format("proc: %d %f %f", patternDuration, proportionalStart, proportionalDuration));
             }
         }
 
@@ -52,17 +55,21 @@ public class Morpher {
 
         for (Section section : part.getSections()) {
             String msg = String.format("Section %s start: %s ", section.getName(),
-                    MidiUtil.stringRep(currentPosition * MidiUtil.PULSES_PER_SIXTEENTH_NOTE, part.getQuartersPerBar()));
+                    MidiUtil.stringRep(currentPosition * MidiUtil.PULSES_PER_SIXTEENTH_NOTE, part));
             log.info(msg);
-            // reportWriter.write(msg);
-            // reportWriter.write("\n");
+
+            if (config.isGenerateReport()) {
+                reportWriter.write(msg);
+                reportWriter.write("\n");
+            }
+
             if (section.getEndPattern() == null) {
                 currentPosition = repeatPattern(currentPosition, notes, section);
             } else {
                 currentPosition = morphPatterns(currentPosition, notes, section);
             }
             msg = String.format("Section %s end  : %s ", section.getName(),
-                    MidiUtil.stringRep(currentPosition * MidiUtil.PULSES_PER_SIXTEENTH_NOTE, part.getQuartersPerBar()));
+                    MidiUtil.stringRep(currentPosition * MidiUtil.PULSES_PER_SIXTEENTH_NOTE, part));
             log.info(msg);
 
             if (config.isGenerateReport()) {
@@ -286,6 +293,5 @@ public class Morpher {
         } else {
             log.info("The input file is valid.");
         }
-
     }
 }

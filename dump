@@ -1,0 +1,2 @@
+set -x
+java -jar build/libs/morphmusic-0.0.1-SNAPSHOT.jar  --dumpMidi $*

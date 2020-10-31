@@ -6,8 +6,8 @@ import javax.sound.midi.MidiDevice;
 import javax.sound.midi.Receiver;
 import javax.sound.midi.ShortMessage;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
@@ -17,7 +17,7 @@ import com.damaru.morphmusic.model.Piece;
 @Component
 public class MidiPlayer {
 
-    private Log log = LogFactory.getLog(MidiPlayer.class);
+    private static Logger log = LoggerFactory.getLogger(MidiPlayer.class);
     private static final int INTERVAL = 20; // milliseconds sleep time
     private static final int LOOPS_PER_SECOND = 1000 / INTERVAL;
 

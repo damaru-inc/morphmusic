@@ -1,28 +1,19 @@
 package com.damaru.midi;
 
-import static org.mockito.Matchers.intThat;
+//import static org.mockito.Matchers.intThat;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import javax.sound.midi.Instrument;
-import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.MetaEventListener;
-import javax.sound.midi.MetaMessage;
-import javax.sound.midi.MidiDevice;
-import javax.sound.midi.MidiEvent;
-import javax.sound.midi.MidiSystem;
-import javax.sound.midi.MidiUnavailableException;
-import javax.sound.midi.Receiver;
-import javax.sound.midi.Sequence;
-import javax.sound.midi.Sequencer;
-import javax.sound.midi.ShortMessage;
-import javax.sound.midi.Soundbank;
-import javax.sound.midi.Synthesizer;
-import javax.sound.midi.Transmitter;
+import javax.sound.midi.*;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -31,13 +22,12 @@ import com.damaru.morphmusic.model.Part;
 import com.damaru.morphmusic.model.Piece;
 
 /**
- *
  * @author mdavis
  */
 @Component
 public class MidiUtil {
 
-    private static Log log = LogFactory.getLog(MidiUtil.class);
+    private static Logger log = LoggerFactory.getLogger(MidiUtil.class);
     private static Sequencer sequencer;
     private static Synthesizer synthesizer;
     private static final List<InstrumentValue> instruments = new ArrayList<>();
@@ -46,9 +36,19 @@ public class MidiUtil {
     public static final int MIDDLE_C = 60; // midi note number.
     public static final double LEGATO = 0.9;
     public static final int PULSES_PER_SIXTEENTH_NOTE = MidiUtil.PPQ / 4;
-    
+    public static final Map<Byte, String> STATUS_NAMES = new HashMap<>();
+    public static final Map<Integer, String> META_MESSAGE_NAMES = new HashMap<>();
     private static Receiver currentReceiver;
-    
+
+    static {
+        STATUS_NAMES.put((byte) 0x80, "  OFF");
+        STATUS_NAMES.put((byte) 0x90, "   ON");
+        STATUS_NAMES.put((byte) 0xC0, " PROG");
+
+        META_MESSAGE_NAMES.put(0x2f, "  END");
+        META_MESSAGE_NAMES.put(0x51, "TEMPO");
+    }
+
     @Autowired
     Config config;
 
@@ -57,17 +57,17 @@ public class MidiUtil {
         try {
             for (MidiDevice.Info info : MidiSystem.getMidiDeviceInfo()) {
                 String desc = info.getName() + " - " + info.getDescription();
-            	MidiDevice device = MidiSystem.getMidiDevice(info);
-                log.debug(desc + " rec: " + device.getMaxReceivers() 
-                + " tra: " + device.getMaxTransmitters() + info);
-                
+                MidiDevice device = MidiSystem.getMidiDevice(info);
+                log.debug(desc + " rec: " + device.getMaxReceivers()
+                        + " tra: " + device.getMaxTransmitters() + info);
+
                 if (device.getMaxReceivers() != 0 && !desc.startsWith("Real Time Sequencer")) {
                     MidiDeviceValue val = new MidiDeviceValue(device, desc);
-                	ret.add(val);
+                    ret.add(val);
                 }
             }
         } catch (MidiUnavailableException e) {
-            log.error(e);
+            log.error("Unable to get midi devices: " + e.getMessage());
         }
         return ret;
     }
@@ -92,13 +92,10 @@ public class MidiUtil {
                 MidiDevice.Info mi = sequencer.getDeviceInfo();
                 float bpm = sequencer.getTempoInBPM();
                 log.debug("sequencer: " + mi + " bpm: " + bpm);
-                MetaEventListener listener = new MetaEventListener()
-                {
-    				@Override
-                    public void meta(MetaMessage event)
-                    {
-                        if (event.getType() == 47)
-                        {
+                MetaEventListener listener = new MetaEventListener() {
+                    @Override
+                    public void meta(MetaMessage event) {
+                        if (event.getType() == 47) {
                             sequencer.close();
                             currentReceiver.close();
                             log.debug("Got end-of-track.");
@@ -108,39 +105,39 @@ public class MidiUtil {
                 };
                 sequencer.addMetaEventListener(listener);
             }
-            
+
             if (sequencer.isRunning()) {
                 sequencer.stop();
             }
-            
+
             if (sequencer.isOpen()) {
                 sequencer.close();
             }
 
             if (currentReceiver != null) {
-            	currentReceiver.close();
+                currentReceiver.close();
             }
-            
+
             sequencer.open();
 
             if (midiDeviceValue != null) {
-            	Transmitter transmitter = null;
-            	List<Transmitter> transmitters = sequencer.getTransmitters();
-            	log.debug("transmitters " + transmitters.size());
-            	
-            	if (transmitters != null && transmitters.size() > 0) {
-            		transmitter = transmitters.get(0);
-            	} else {
-            		transmitter = sequencer.getTransmitter();
-            	}
+                Transmitter transmitter = null;
+                List<Transmitter> transmitters = sequencer.getTransmitters();
+                log.debug("transmitters " + transmitters.size());
 
-	            log.debug("Using device " + midiDeviceValue);
-	            MidiDevice device = midiDeviceValue.getMidiDevice();
-	            device.open();
-	            currentReceiver = device.getReceiver();
-	            transmitter.setReceiver(currentReceiver);
+                if (transmitters != null && transmitters.size() > 0) {
+                    transmitter = transmitters.get(0);
+                } else {
+                    transmitter = sequencer.getTransmitter();
+                }
+
+                log.debug("Using device " + midiDeviceValue);
+                MidiDevice device = midiDeviceValue.getMidiDevice();
+                device.open();
+                currentReceiver = device.getReceiver();
+                transmitter.setReceiver(currentReceiver);
             }
-            
+
             sequencer.setSequence(sequence);
             log.debug("start");
             sequencer.start();
@@ -148,7 +145,7 @@ public class MidiUtil {
             log.error("Error", ex);
         }
     }
-    
+
     public static void stopSequence() {
         if (sequencer != null && sequencer.isRunning()) {
             sequencer.stop();
@@ -165,12 +162,12 @@ public class MidiUtil {
         if (synthesizer != null && synthesizer.isOpen()) {
             synthesizer.close();
         }
-        
+
         if (currentReceiver != null) {
-        	currentReceiver.close();
+            currentReceiver.close();
         }
     }
-    
+
     public static MidiEvent createNoteOnEvent(int key, int velocity, long tick) throws Exception {
         //log.debug("key: " + key + " vel: " + velocity + " tick: " + tick);
         return createNoteEvent(ShortMessage.NOTE_ON, key, velocity, tick);
@@ -186,15 +183,15 @@ public class MidiUtil {
         MidiEvent event = new MidiEvent(message, tick);
         return event;
     }
-    
+
     public static ShortMessage createNoteOnMessage(int key, int velocity) throws Exception {
         return createShortMessage(ShortMessage.NOTE_ON, key, velocity);
     }
-    
+
     public static ShortMessage createNoteOffMessage(int key, int velocity) throws Exception {
         return createShortMessage(ShortMessage.NOTE_OFF, key, velocity);
     }
-    
+
     public static ShortMessage createShortMessage(int command, int key, int velocity) throws Exception {
         ShortMessage message = new ShortMessage();
         message.setMessage(command,
@@ -203,32 +200,34 @@ public class MidiUtil {
                 velocity);
         return message;
     }
-    
+
     /**
      * TODO write a unit test for getPulsesPerUnitOfMeasurement
+     *
      * @param piece
      * @return
      */
     public static int getPulsesPerUnitOfMeasurement(Piece piece) {
         int ret = 1;
-        
+
         int unitOfMeasurement = piece.getUnitOfMeasurement();
-        
+
         if (unitOfMeasurement > 0) {
             ret = (int) (PPQ / (double) (unitOfMeasurement / 4));
         }
-        
+
         return ret;
     }
-// currentPosition * MidiUtil.PULSES_PER_SIXTEENTH_NOTE, part.getQuartersPerBar()
+
+    // currentPosition * MidiUtil.PULSES_PER_SIXTEENTH_NOTE, part.getQuartersPerBar()
     public static String stringRep(int position, Part part) {
         int midiPosition = position;
-        Piece piece = part.getPiece();
-        
+//        Piece piece = part.getPiece();
+
         // TODO finish stringRep
-        if (!piece.isUseMidiPulseAsUnitOfMeasure()) {
-            int m = getPulsesPerUnitOfMeasurement(piece);
-        }
+//        if (!piece.isUseMidiPulseAsUnitOfMeasure()) {
+//            int m = getPulsesPerUnitOfMeasurement(piece);
+//        }
         int pulsesPerBar = PPQ * part.getQuartersPerBar();
         int bars = midiPosition / pulsesPerBar;
         int remainder = midiPosition - (bars * pulsesPerBar);
@@ -236,17 +235,91 @@ public class MidiUtil {
         remainder -= quarters * PPQ;
         int sixteenths = remainder / PULSES_PER_SIXTEENTH_NOTE;
         remainder -= sixteenths * PULSES_PER_SIXTEENTH_NOTE;
-        
-        String ret = String.format("%d.%d.%d.%03d %5d", bars+1, quarters+1, sixteenths + 1, remainder, midiPosition);
+
+        String ret =
+                String.format("%d.%d.%d.%03d %5d", bars + 1, quarters + 1, sixteenths + 1, remainder, midiPosition);
         return ret;
     }
-    
+
     /**
      * TODO write convertToMidiPulses
      */
     public int convertToMidiPulses(Part part, int value) {
-        
+
         int ret = value;
         return ret;
+    }
+
+    public static void dumpMidi(String fileName) throws InvalidMidiDataException, IOException {
+
+        System.out.println("----------------- START " + fileName);
+        Sequence sequence = MidiSystem.getSequence(new File(fileName));
+        int trackNo = 0;
+        for (Track track : sequence.getTracks()) {
+            trackNo++;
+            System.out.println("----------- Track " + trackNo);
+            for (int i = 0; i < track.size(); i++) {
+                MidiEvent midiEvent = track.get(i);
+                MidiMessage midiMessage = midiEvent.getMessage();
+                byte[] bytes = midiMessage.getMessage();
+                if (midiMessage instanceof MetaMessage) {
+                    MetaMessage meta = (MetaMessage) midiMessage;
+                    int len = meta.getLength();
+                    int type = meta.getType();
+                    String typeName = META_MESSAGE_NAMES.get(type);
+                    if (typeName == null) {
+                        typeName = String.format("?-%3d", type);
+                    }
+                    String message = typeName;
+                    bytes = meta.getData();
+
+                    switch (type) {
+                        case 0x2f: // END
+                            message = typeName;
+                            break;
+                        case 0x51: // TEMPO
+                            byte[] longAsBytes = new byte[8];
+                            longAsBytes[0] = 0;
+                            longAsBytes[1] = 0;
+                            longAsBytes[2] = 0;
+                            longAsBytes[3] = 0;
+                            longAsBytes[4] = 0;
+                            longAsBytes[5] = bytes[2];
+                            longAsBytes[6] = bytes[3];
+                            longAsBytes[7] = bytes[4];
+                            ByteBuffer bb = ByteBuffer.wrap(longAsBytes);
+                            long microsPerBeat = bb.getLong();
+                            double secondsPerBeat = microsPerBeat / 1_000_000.0;
+                            double beatsPerSecond = 1 / secondsPerBeat;
+                            double tempo = beatsPerSecond * 60;
+
+                            message = String.format("%s %3.1f", typeName, tempo);
+                            break;
+                    /*
+                        Nice ! But the real formula is BPM = (60/(500,000e-6))*b/4, with b the lower numeral of the time
+                            signature. You assumed b=4
+                    */
+
+                    }
+
+                    System.out.printf("%8d %s\n", midiEvent.getTick(), message);
+                } else {
+                    byte stat = bytes[0];
+                    byte type = (byte) ((stat & 0xF0));
+                    byte channel = (byte) (stat & 0xF);
+                    byte note = bytes[1];
+                    byte vel = bytes[2];
+                    String typeName = STATUS_NAMES.get(type);
+                    if (typeName == null) {
+                        typeName = String.format("??-%x", type);
+                    }
+
+                    System.out.printf("%8d %s chan: %x note: %3d vel: %3d:\n", midiEvent.getTick(),
+                            typeName, channel, note, vel);
+                }
+
+            }
+        }
+        System.out.println("------------------- END " + fileName);
     }
 }

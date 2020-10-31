@@ -3,10 +3,11 @@ package com.damaru.morphmusic;
 import java.io.File;
 import java.io.FileWriter;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -14,10 +15,15 @@ import com.damaru.midi.Generator;
 import com.damaru.morphmusic.model.Part;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 
+import static org.junit.Assert.assertNotNull;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class MorphmusicApplicationTests {
-    private Log log = LogFactory.getLog(MorphmusicApplicationTests.class);
+    private static Logger log = LoggerFactory.getLogger(MorphmusicApplicationTests.class);
+
+    @Autowired
+    Morpher morpher;
 
     @Test
     public void contextLoads() {
@@ -38,13 +44,14 @@ public class MorphmusicApplicationTests {
         }
 
         Part part = null;
+        //assertNotNull(part);
 
         YAMLMapper mapper = new YAMLMapper();
         part = mapper.readValue(new File(filename), Part.class);
-        log.warn("part: " + part);
+        log.info("part: " + part);
         File report = new File(basename + ".txt");
         FileWriter reportWriter = new FileWriter(report);
-        Morpher morpher = new Morpher();
+        //Morpher morpher = new Morpher();
         morpher.process(part, reportWriter);
         reportWriter.flush();
         reportWriter.close();

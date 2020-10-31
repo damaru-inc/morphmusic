@@ -2,11 +2,18 @@ package com.damaru.morphmusic;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.util.List;
+import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import com.damaru.midi.GeneratorException;
+import com.damaru.midi.MidiUtil;
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -15,13 +22,18 @@ import com.damaru.morphmusic.model.Part;
 import com.damaru.morphmusic.model.Piece;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 
-@SpringBootApplication
-public class MorphmusicApplication implements CommandLineRunner {
+import javax.sound.midi.InvalidMidiDataException;
 
-    private Log log = LogFactory.getLog(MorphmusicApplication.class);
-    
+@SpringBootApplication
+public class MorphmusicApplication implements ApplicationRunner {
+
+    private Logger log = LoggerFactory.getLogger(MorphmusicApplication.class);
+
     @Autowired
     Config config;
+
+    @Autowired
+    Morpher morpher;
 
     public static void main(String[] args) {
         SpringApplication.run(MorphmusicApplication.class, args);
@@ -31,30 +43,42 @@ public class MorphmusicApplication implements CommandLineRunner {
      * TODO make the 'Required: filename' error stand out more.
      */
     @Override
-    public void run(String... args) throws Exception {
+    public void run(ApplicationArguments args) throws Exception {
 
-        if (args.length == 0) {
-            log.error("Required: filename");
-            System.exit(1);
+        Set<String> options = args.getOptionNames();
+        List<String> files = args.getNonOptionArgs();
+
+        if (args.containsOption("dumpMidi")) {
+            for (String fileName : files) {
+                log.info("Dumping " + fileName);
+                MidiUtil.dumpMidi(fileName);
+            }
+            return;
         }
-        
+
         log.info(config.toString());
 
-        for (String filename : args) {
-            runPiece(filename);
+        for (String filename : args.getNonOptionArgs()) {
+            try {
+                runPiece(filename);
+            } catch (UnrecognizedPropertyException me) {
+                // Maybe the file just contains a part...
+                runPart(filename);
+            }
         }
 
     }
 
-    private void runPiece(String filename) throws Exception {
-        String basename = filename;
+    private void runPiece(String filename)
+            throws MorpherException, IOException, InvalidMidiDataException, GeneratorException {
+        String piecename = filename;
 
         log.info("Loading file " + filename);
 
         int dot = filename.indexOf('.');
 
         if (dot > 0) {
-            basename = filename.substring(0, dot);
+            piecename = filename.substring(0, dot);
         }
 
         Piece piece = null;
@@ -64,21 +88,48 @@ public class MorphmusicApplication implements CommandLineRunner {
 
         int i = 0;
         for (Part part : piece.getParts()) {
-            part.setPiece(piece);
             i++;
-            String partBaseName = basename + "-" + i;
-            File reportFile = new File(partBaseName + ".txt");
-            FileWriter reportWriter = new FileWriter(reportFile);
-            Morpher morpher = new Morpher();
-            morpher.process(part, reportWriter);
-            reportWriter.flush();
-            reportWriter.close();
-            // mapper.writeValue(new File(basename + ".out.yaml"), part);
-            Generator generator = new Generator();
-            generator.setTempo(66);
-            generator.generate(part);
-            generator.writeFile(partBaseName + ".midi");
+            part.setPiece(piece);
+            String partBaseName = piecename + "-" + i;
+            doPart(piece, part, partBaseName);
         }
+
+    }
+
+    private void runPart(String filename)
+            throws MorpherException, IOException, GeneratorException {
+        String partname = filename;
+
+        log.info("Loading file " + filename);
+
+        int dot = filename.indexOf('.');
+
+        if (dot > 0) {
+            partname = filename.substring(0, dot);
+        }
+
+        YAMLMapper mapper = new YAMLMapper();
+        Part part = mapper.readValue(new File(filename), Part.class);
+        log.info("Loaded part: " + part);
+
+        doPart(null, part, partname);
+
+    }
+
+    private void doPart(Piece piece, Part part, String partBaseName)
+            throws IOException, GeneratorException, MorpherException {
+        String reportFilename = partBaseName + ".txt";
+        File reportFile = new File(reportFilename);
+        FileWriter reportWriter = new FileWriter(reportFile);
+        morpher.process(part, reportWriter);
+        reportWriter.flush();
+        reportWriter.close();
+        // This will write the part out to yaml.
+        // mapper.writeValue(new File(basename + ".out.yaml"), part);
+        Generator generator = new Generator();
+        generator.setTempo(66);
+        generator.generate(part);
+        generator.writeFile(partBaseName + ".midi");
 
     }
 }

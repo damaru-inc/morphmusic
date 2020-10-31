@@ -1,0 +1,43 @@
+name: part 1
+patterns:
+  - 
+    name: p1
+    duration: 16
+    notes:
+      -
+        midiNoteNum: 60
+        start: 0
+        duration: 4
+        dynamic: 3
+        expression: 1
+        orderIn: 1
+        orderOut: 1
+      -
+        midiNoteNum: 61
+        start: 4
+        duration: 4
+        dynamic: 4
+        expression: 1
+        orderIn: 2
+        orderOut: 2
+      -
+        midiNoteNum: 62
+        start: 8
+        duration: 4
+        dynamic: 5
+        expression: 1
+        orderIn: 3
+        orderOut: 3
+      -
+        midiNoteNum: 63
+        start: 12
+        duration: 4
+        dynamic: 6
+        expression: 1
+        orderIn: 4
+        orderOut: 4
+sections: 
+  -
+    name: s1
+    startPattern: p1
+    steps: 1
