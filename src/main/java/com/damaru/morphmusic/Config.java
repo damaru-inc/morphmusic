@@ -10,6 +10,9 @@ public class Config {
     @Value("${morpher.generateReport}")
     private boolean generateReport;
 
+    @Value("${morpher.randomizeOrder}")
+    private boolean randomizeOrder = false;
+
     @Value("${morpher.snapToGrid}")
     private boolean snapToGrid = true;
 
@@ -21,6 +24,10 @@ public class Config {
         this.generateReport = generateReport;
     }
 
+    public boolean isRandomizeOrder() { return randomizeOrder; }
+
+    public void setRandomizeOrder(boolean randomizeOrder) { this.randomizeOrder = randomizeOrder; }
+
     public boolean isSnapToGrid() {
         return snapToGrid;
     }
@@ -28,7 +35,7 @@ public class Config {
     public void setSnapToGrid(boolean snapToGrid) {
         this.snapToGrid = snapToGrid;
     }
-    
+
     public String toString() {
         return String.format("Config:\ngenerateReport: %s \nsnapToGrid: %s", generateReport, snapToGrid);
     }

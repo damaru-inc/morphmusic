@@ -121,13 +121,14 @@ public class MorphmusicApplication implements ApplicationRunner {
         String reportFilename = partBaseName + ".txt";
         File reportFile = new File(reportFilename);
         FileWriter reportWriter = new FileWriter(reportFile);
+        part.setPiece(piece);
         morpher.process(part, reportWriter);
         reportWriter.flush();
         reportWriter.close();
         // This will write the part out to yaml.
         // mapper.writeValue(new File(basename + ".out.yaml"), part);
         Generator generator = new Generator();
-        generator.setTempo(66);
+        generator.setTempo(120);
         generator.generate(part);
         generator.writeFile(partBaseName + ".midi");
 

@@ -2,11 +2,9 @@ package com.damaru.morphmusic;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +30,9 @@ public class Morpher {
     public void process(Part part, Writer reportWriter) throws MorpherException, IOException {
         log.info("Processing part " + part.getName() + " quartersPerBeat: " + part.getQuartersPerBar());
         log.info("Config: " + config);
+        if (config.isRandomizeOrder()) {
+            randomizeOrder(part);
+        }
         validate(part);
 
         for (Pattern pattern : part.getPatterns()) {
@@ -149,7 +150,7 @@ public class Morpher {
         // if the patterns are of the same length, we don't need to
         // compute scaled durations.
 
-        if (config.isSnapToGrid()) {
+//        if (config.isSnapToGrid()) {
             if (durationDiff == 0) {
                 dest.setStart(currentPosition + src.getStart());
             } else {
@@ -158,13 +159,13 @@ public class Morpher {
                 double d = src.getProportionalDuration() * stepDuration;
                 int rd = (int) Math.round(d);
 
-                log.info(String.format("p1 %f %d %f %d", s, rs, d, rd));
+                log.debug(String.format("p1 %f %d %f %d", s, rs, d, rd));
                 int start = currentPosition + rs;
                 int dur = Math.max(1, rd);
                 dest.setStart(start);
                 dest.setDuration(dur);
             }
-        }
+//        }
 
     }
 
@@ -186,6 +187,28 @@ public class Morpher {
             currentPosition += p.getDuration();
         }
         return currentPosition;
+    }
+
+    private void randomizeOrder(Part part) {
+        for (Pattern pattern : part.getPatterns()) {
+            List<Note> notes = pattern.getNotes();
+            int numNotes = notes.size();
+            log.info("Randomizing notes. {} {}", pattern.getName(), numNotes);
+            if (numNotes > 0) {
+                List<Integer> inOrderNums =
+                        IntStream.rangeClosed(1, numNotes).boxed().collect(Collectors.toList());
+                Collections.shuffle(inOrderNums);
+                List<Integer> outOrderNums =
+                        IntStream.rangeClosed(1, numNotes).boxed().collect(Collectors.toList());
+                Collections.shuffle(outOrderNums);
+                for (int i = 0; i < numNotes; i++) {
+                    Note note = notes.get(i);
+                    note.setOrderIn(inOrderNums.get(i));
+                    note.setOrderOut(outOrderNums.get(i));
+                    //log.info(note.toString());
+                }
+            }
+        }
     }
 
     private void validate(Part part) throws MorpherException {
