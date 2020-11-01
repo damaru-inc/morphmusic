@@ -278,21 +278,13 @@ public class MidiUtil {
                             message = typeName;
                             break;
                         case 0x51: // TEMPO
-                            byte[] longAsBytes = new byte[8];
-                            longAsBytes[0] = 0;
-                            longAsBytes[1] = 0;
-                            longAsBytes[2] = 0;
-                            longAsBytes[3] = 0;
-                            longAsBytes[4] = 0;
-                            longAsBytes[5] = bytes[2];
-                            longAsBytes[6] = bytes[3];
-                            longAsBytes[7] = bytes[4];
-                            ByteBuffer bb = ByteBuffer.wrap(longAsBytes);
-                            long microsPerBeat = bb.getLong();
+                            int i1 = bytes[0] & 0xFF;
+                            int i2 = bytes[1] & 0xFF;
+                            int i3 = bytes[2] & 0xFF;
+                            long microsPerBeat = i1 * 65536 + i2 * 256 + i3;
                             double secondsPerBeat = microsPerBeat / 1_000_000.0;
                             double beatsPerSecond = 1 / secondsPerBeat;
                             double tempo = beatsPerSecond * 60;
-
                             message = String.format("%s %3.1f", typeName, tempo);
                             break;
                     /*

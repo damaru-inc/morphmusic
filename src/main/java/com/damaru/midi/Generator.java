@@ -74,18 +74,6 @@ public class Generator {
             /*
             Nice ! But the real formula is BPM = (60/(500,000e-6))*b/4, with b the lower numeral of the time signature. You assumed b=4
              */
-            /*
-            long mask = 256 * 256;
-            log.debug("mask: " + mask + " mics: " + microsecsPerBeat);
-            int val1 = (int) (microsecsPerBeat / mask);
-            microsecsPerBeat = microsecsPerBeat - (val1 * 256 * 256);
-            long mask2 = 256;
-            int val2 = (int) (microsecsPerBeat / mask2);
-            int val3 = (int) (microsecsPerBeat - (val2 * 256));
-            long val = (val1 * 256 * 256) + (val2 * 256) + val3;
-
-
-             */
             ByteBuffer bb = ByteBuffer.allocate(8);
             bb.putLong(microsecsPerBeat);
             bb.flip();
@@ -95,13 +83,11 @@ public class Generator {
                     tempoBytes[5], tempoBytes[6], tempoBytes[7]));
 
             MetaMessage message = new MetaMessage();
-            byte[] data = new byte[5];
-            data[0] = 0x51; // TEMPO
-            data[1] = 0x03; // Data length
-            data[2] = tempoBytes[5];
-            data[3] = tempoBytes[6];
-            data[4] = tempoBytes[7];
-            message.setMessage(0x51, data, 5);
+            byte[] data = new byte[3];
+            data[0] = tempoBytes[5];
+            data[1] = tempoBytes[6];
+            data[2] = tempoBytes[7];
+            message.setMessage(0x51, data, 3);
             MidiEvent event = new MidiEvent(message, 0);
             track.add(event);
         } catch (Exception e) {
