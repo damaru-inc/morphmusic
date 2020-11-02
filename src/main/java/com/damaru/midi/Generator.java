@@ -135,7 +135,7 @@ public class Generator {
     }
 
     public void generate(Note n) throws GeneratorException {
-        int end = n.getMidiStart() + n.getMidiDuration();
+        long end = n.getMidiStart() + n.getMidiDuration();
         log.debug("Key: {} start: {} length: {} end: {} vel: {}", n.getMidiNoteNum(), n.getMidiStart(),
                 n.getMidiDuration(), end, n.getDynamic());
         try {

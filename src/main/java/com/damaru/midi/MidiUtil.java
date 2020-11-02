@@ -220,20 +220,20 @@ public class MidiUtil {
     }
 
     // currentPosition * MidiUtil.PULSES_PER_SIXTEENTH_NOTE, part.getQuartersPerBar()
-    public static String stringRep(int position, Part part) {
-        int midiPosition = position;
+    public static String stringRep(long position, Part part) {
+        long midiPosition = position;
 //        Piece piece = part.getPiece();
 
         // TODO finish stringRep
 //        if (!piece.isUseMidiPulseAsUnitOfMeasure()) {
 //            int m = getPulsesPerUnitOfMeasurement(piece);
 //        }
-        int pulsesPerBar = PPQ * part.getQuartersPerBar();
-        int bars = midiPosition / pulsesPerBar;
-        int remainder = midiPosition - (bars * pulsesPerBar);
-        int quarters = remainder / PPQ;
+        long pulsesPerBar = PPQ * part.getQuartersPerBar();
+        long bars = midiPosition / pulsesPerBar;
+        long remainder = midiPosition - (bars * pulsesPerBar);
+        long quarters = remainder / PPQ;
         remainder -= quarters * PPQ;
-        int sixteenths = remainder / PULSES_PER_SIXTEENTH_NOTE;
+        long sixteenths = remainder / PULSES_PER_SIXTEENTH_NOTE;
         remainder -= sixteenths * PULSES_PER_SIXTEENTH_NOTE;
 
         String ret =

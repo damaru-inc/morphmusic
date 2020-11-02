@@ -37,7 +37,8 @@ public class Config {
     }
 
     public String toString() {
-        return String.format("Config:\ngenerateReport: %s \nsnapToGrid: %s", generateReport, snapToGrid);
+        return String.format("Config:\ngenerateReport: %s \nrandomizeOrder: %s \nsnapToGrid: %s", generateReport, randomizeOrder,
+                snapToGrid);
     }
 
 }

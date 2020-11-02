@@ -12,8 +12,10 @@ public class Note {
 	private String id;
 	private int midiNoteNum;
 	private int start;
+	private long midiStart;
 	private double proportionalStart;
 	private int duration;
+	private long midiDuration;
 	private double proportionalDuration;
 	private int dynamic;
 	private int expression;
@@ -125,17 +127,30 @@ public class Note {
         }
         return dynamic * 16 - 1; // max value: 127 for midi.
     }
-    
-    /**
-     * TODO Where do these get set?
-     */
-    public int getMidiStart() {
-        return MidiUtil.PULSES_PER_SIXTEENTH_NOTE * start;
-    }    
-    
-    public int getMidiDuration() {
-        return MidiUtil.PULSES_PER_SIXTEENTH_NOTE * duration;
-    }
+
+	public long getMidiStart() {
+		return midiStart;
+	}
+
+	public void setMidiStart(long midiStart) {
+		this.midiStart = midiStart;
+	}
+
+	public long getMidiDuration() {
+		return midiDuration;
+	}
+
+	public void setMidiDuration(long midiDuration) {
+		this.midiDuration = midiDuration;
+	}
+
+	//    public int getMidiStart() {
+//        return MidiUtil.PULSES_PER_SIXTEENTH_NOTE * start;
+//    }
+//
+//    public int getMidiDuration() {
+//        return MidiUtil.PULSES_PER_SIXTEENTH_NOTE * duration;
+//    }
 
 
 	@Override

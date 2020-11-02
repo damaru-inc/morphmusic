@@ -1,21 +1,20 @@
 package com.damaru.morphmusic;
 
-import java.io.IOException;
-import java.io.Writer;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.damaru.midi.MidiUtil;
 import com.damaru.morphmusic.model.Note;
 import com.damaru.morphmusic.model.Part;
 import com.damaru.morphmusic.model.Pattern;
 import com.damaru.morphmusic.model.Section;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.io.Writer;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Component
 public class Morpher {
@@ -46,17 +45,19 @@ public class Morpher {
                 note.setProportionalStart(proportionalStart);
                 double proportionalDuration = note.getDuration() / (double) patternDuration;
                 note.setProportionalDuration(proportionalDuration);
-                log.debug(String.format("proc: %d %f %f", patternDuration, proportionalStart, proportionalDuration));
+                log.debug(String.format("pattern: %s duration: %d proportionalStart: %f proportionalDuration: %f",
+                        pattern.getName(), patternDuration, proportionalStart,
+                        proportionalDuration));
             }
         }
 
         List<Note> notes = new ArrayList<>();
-        int currentPosition = 0; // either the midi pulse or number of
-                                 // piece.unitOfMeasure
+        long currentPosition = 0; // piece.unitOfMeasure if snap-to-grid, or midi ticks.
 
         for (Section section : part.getSections()) {
+            long pos = config.isSnapToGrid() ? currentPosition * MidiUtil.PULSES_PER_SIXTEENTH_NOTE : currentPosition;
             String msg = String.format("Section %s start: %s ", section.getName(),
-                    MidiUtil.stringRep(currentPosition * MidiUtil.PULSES_PER_SIXTEENTH_NOTE, part));
+                    MidiUtil.stringRep(pos, part));
             log.info(msg);
 
             if (config.isGenerateReport()) {
@@ -69,8 +70,10 @@ public class Morpher {
             } else {
                 currentPosition = morphPatterns(currentPosition, notes, section);
             }
+
+            pos = config.isSnapToGrid() ? currentPosition * MidiUtil.PULSES_PER_SIXTEENTH_NOTE : currentPosition;
             msg = String.format("Section %s end  : %s ", section.getName(),
-                    MidiUtil.stringRep(currentPosition * MidiUtil.PULSES_PER_SIXTEENTH_NOTE, part));
+                    MidiUtil.stringRep(pos, part));
             log.info(msg);
 
             if (config.isGenerateReport()) {
@@ -85,7 +88,7 @@ public class Morpher {
         part.setNotes(notes);
     }
 
-    public int morphPatterns(int currentPosition, List<Note> notes, Section section) {
+    public long morphPatterns(long currentPosition, List<Note> notes, Section section) {
         int steps = section.getSteps();
         if (steps == 0) {
             return currentPosition;
@@ -106,11 +109,21 @@ public class Morpher {
                 currentPosition));
 
         for (int step = 0; step < steps; step++) {
-            int stepDuration = 0;
+            long stepDuration = 0;
             if (durationDiff != 0) {
-                stepDuration = (int) Math.round(startPattern.getDuration() + durationDiff * percentDone);
+                if (config.isSnapToGrid()) {
+                    stepDuration = (int) Math.round(startPattern.getDuration() + durationDiff * percentDone);
+                } else {
+                    stepDuration =
+                            (long) Math.round((startPattern.getDuration() + durationDiff * percentDone)
+                                    * MidiUtil.PULSES_PER_SIXTEENTH_NOTE);
+                }
             } else {
-                stepDuration = startPattern.getDuration();
+                if (config.isSnapToGrid()) {
+                    stepDuration = startPattern.getDuration();
+                } else {
+                    stepDuration = startPattern.getDuration() * MidiUtil.PULSES_PER_SIXTEENTH_NOTE;
+                }
             }
 
             int numNotesDroppedFromStart = (int) Math.round(numStartNotes * percentDone);
@@ -146,30 +159,36 @@ public class Morpher {
         return currentPosition;
     }
 
-    private void copyAndMorphNote(Note src, Note dest, int currentPosition, int durationDiff, int stepDuration) {
+    private void copyAndMorphNote(Note src, Note dest, long currentPosition, int durationDiff, long stepDuration) {
         // if the patterns are of the same length, we don't need to
         // compute scaled durations.
 
-//        if (config.isSnapToGrid()) {
-            if (durationDiff == 0) {
-                dest.setStart(currentPosition + src.getStart());
+        if (durationDiff == 0) {
+            if (config.isSnapToGrid()) {
+                dest.setMidiStart((currentPosition + src.getStart()) * MidiUtil.PULSES_PER_SIXTEENTH_NOTE);
             } else {
-                double s = src.getProportionalStart() * stepDuration;
-                int rs = (int) Math.round(s);
-                double d = src.getProportionalDuration() * stepDuration;
-                int rd = (int) Math.round(d);
-
-                log.debug(String.format("p1 %f %d %f %d", s, rs, d, rd));
-                int start = currentPosition + rs;
-                int dur = Math.max(1, rd);
-                dest.setStart(start);
-                dest.setDuration(dur);
+                dest.setMidiStart(currentPosition + (src.getStart() * MidiUtil.PULSES_PER_SIXTEENTH_NOTE));
             }
-//        }
+        } else {
+            double s = src.getProportionalStart() * stepDuration;
+            long rs = Math.round(s);
+            double d = src.getProportionalDuration() * stepDuration;
+            long rd = Math.round(d);
 
+            log.debug(String.format("p1 %f %d %f %d", s, rs, d, rd));
+            long start = currentPosition + rs;
+            long dur = Math.max(1, rd);
+            if (config.isSnapToGrid()) {
+                dest.setMidiStart(start * MidiUtil.PULSES_PER_SIXTEENTH_NOTE);
+                dest.setMidiDuration(dur * MidiUtil.PULSES_PER_SIXTEENTH_NOTE);
+            } else {
+                dest.setMidiStart(start);
+                dest.setMidiDuration(dur);
+            }
+        }
     }
 
-    public int repeatPattern(int currentPosition, List<Note> notes, Section section) {
+    public long repeatPattern(long currentPosition, List<Note> notes, Section section) {
         int steps = section.getSteps();
         if (steps == 0) {
             return currentPosition;
@@ -181,10 +200,16 @@ public class Morpher {
         for (int i = 0; i < steps; i++) {
             for (Note note : p.getNotes()) {
                 Note newNote = new Note(note);
-                newNote.setStart(currentPosition + note.getStart());
+                if (config.isSnapToGrid()) {
+                    newNote.setMidiStart((currentPosition + note.getStart()) * MidiUtil.PULSES_PER_SIXTEENTH_NOTE);
+                } else {
+                    newNote.setMidiStart(currentPosition + (note.getStart() * MidiUtil.PULSES_PER_SIXTEENTH_NOTE));
+                }
+                newNote.setMidiDuration(note.getDuration() * MidiUtil.PULSES_PER_SIXTEENTH_NOTE);
                 notes.add(newNote);
             }
-            currentPosition += p.getDuration();
+            currentPosition += config.isSnapToGrid() ? p.getDuration() :
+                    p.getDuration() * MidiUtil.PULSES_PER_SIXTEENTH_NOTE;
         }
         return currentPosition;
     }
