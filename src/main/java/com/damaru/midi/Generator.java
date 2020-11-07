@@ -78,9 +78,8 @@ public class Generator {
             bb.putLong(microsecsPerBeat);
             bb.flip();
             byte[] tempoBytes = bb.array();
-            log.info(String.format("tempo: %d %x %x %x %d %d %d\n", tempoBytes.length, tempoBytes[5], tempoBytes[6],
-                    tempoBytes[7],
-                    tempoBytes[5], tempoBytes[6], tempoBytes[7]));
+            log.debug(String.format("tempo: %d %x %x %x\n", tempoBytes.length, tempoBytes[5], tempoBytes[6],
+                    tempoBytes[7]));
 
             MetaMessage message = new MetaMessage();
             byte[] data = new byte[3];

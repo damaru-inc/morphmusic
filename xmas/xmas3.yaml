@@ -1,0 +1,491 @@
+name: part 3
+patterns:
+  - 
+    name: p1-3
+    duration: 108
+    notes:
+      -
+        midiNoteNum: 57
+        start: 12
+        duration: 11
+        dynamic: 5
+        orderIn: 1
+        orderOut: 9
+      -
+        midiNoteNum: 53
+        start: 28
+        duration: 4
+        dynamic: 5
+        orderIn: 2
+        orderOut: 6
+      -
+        midiNoteNum: 54
+        start: 32
+        duration: 4
+        dynamic: 5
+        orderIn: 3
+        orderOut: 1
+      -
+        midiNoteNum: 50
+        start: 40
+        duration: 4
+        dynamic: 5
+        orderIn: 4
+        orderOut: 5
+      -
+        midiNoteNum: 55
+        start: 44
+        duration: 4
+        dynamic: 5
+        orderIn: 5
+        orderOut: 12
+      -
+        midiNoteNum: 43
+        start: 52
+        duration: 4
+        dynamic: 5
+        orderIn: 6
+        orderOut: 3
+      -
+        midiNoteNum: 52
+        start: 56
+        duration: 4
+        dynamic: 5
+        orderIn: 7
+        orderOut: 13
+      -
+        midiNoteNum: 52
+        start: 64
+        duration: 11
+        dynamic: 5
+        orderIn: 8
+        orderOut: 14
+      -
+        midiNoteNum: 55
+        start: 68
+        duration: 4
+        dynamic: 5
+        orderIn: 9
+        orderOut: 7
+      -
+        midiNoteNum: 53
+        start: 72
+        duration: 7
+        dynamic: 5
+        orderIn: 10
+        orderOut: 8
+      -
+        midiNoteNum: 53
+        start: 80
+        duration: 4
+        dynamic: 5
+        orderIn: 11
+        orderOut: 2
+      -
+        midiNoteNum: 58
+        start: 84
+        duration: 7
+        dynamic: 5
+        orderIn: 12
+        orderOut: 10
+      -
+        midiNoteNum: 58
+        start: 92
+        duration: 4
+        dynamic: 5
+        orderIn: 13
+        orderOut: 4
+      -
+        midiNoteNum: 57
+        start: 96
+        duration: 7
+        dynamic: 5
+        orderIn: 14
+        orderOut: 11
+  - 
+    name: p2-3
+    duration: 64
+    notes:
+      -
+        midiNoteNum: 60
+        start: 0
+        duration: 4
+        dynamic: 5
+        orderIn: 1
+        orderOut: 2
+      -
+        midiNoteNum: 60
+        start: 4
+        duration: 4
+        dynamic: 5
+        orderIn: 6
+        orderOut: 10
+      -
+        midiNoteNum: 60
+        start: 8
+        duration: 4
+        dynamic: 5
+        orderIn: 3
+        orderOut: 13
+      -
+        midiNoteNum: 60
+        start: 12
+        duration: 4
+        dynamic: 5
+        orderIn: 11
+        orderOut: 5
+      -
+        midiNoteNum: 65
+        start: 16
+        duration: 4
+        dynamic: 5
+        orderIn: 8
+        orderOut: 7
+      -
+        midiNoteNum: 64
+        start: 20
+        duration: 4
+        dynamic: 5
+        orderIn: 13
+        orderOut: 4
+      -
+        midiNoteNum: 60
+        start: 24
+        duration: 7
+        dynamic: 5
+        orderIn: 5
+        orderOut: 11
+      -
+        midiNoteNum: 60
+        start: 32
+        duration: 4
+        dynamic: 5
+        orderIn: 14
+        orderOut: 1
+      -
+        midiNoteNum: 60
+        start: 36
+        duration: 4
+        dynamic: 5
+        orderIn: 4
+        orderOut: 12
+      -
+        midiNoteNum: 60
+        start: 40
+        duration: 4
+        dynamic: 5
+        orderIn: 7
+        orderOut: 8
+      -
+        midiNoteNum: 60
+        start: 44
+        duration: 4
+        dynamic: 5
+        orderIn: 10
+        orderOut: 6
+      -
+        midiNoteNum: 60
+        start: 48
+        duration: 4
+        dynamic: 5
+        orderIn: 2
+        orderOut: 9
+      -
+        midiNoteNum: 58
+        start: 52
+        duration: 4
+        dynamic: 5
+        orderIn: 12
+        orderOut: 3
+      -
+        midiNoteNum: 57
+        start: 56
+        duration: 7
+        dynamic: 5
+        orderIn: 9
+        orderOut: 14
+  - 
+    name: p3-3
+    duration: 108
+    notes:
+      -
+        midiNoteNum: 58
+        start: 8
+        duration: 4
+        dynamic: 5
+        orderIn: 1
+        orderOut: 4
+      -
+        midiNoteNum: 57
+        start: 12
+        duration: 7
+        dynamic: 5
+        orderIn: 13
+        orderOut: 14
+      -
+        midiNoteNum: 58
+        start: 20
+        duration: 4
+        dynamic: 5
+        orderIn: 6
+        orderOut: 11
+      -
+        midiNoteNum: 57
+        start: 24
+        duration: 4
+        dynamic: 5
+        orderIn: 7
+        orderOut: 18
+      -
+        midiNoteNum: 60
+        start: 28
+        duration: 4
+        dynamic: 5
+        orderIn: 18
+        orderOut: 7
+      -
+        midiNoteNum: 58
+        start: 32
+        duration: 4
+        dynamic: 5
+        orderIn: 5
+        orderOut: 10
+      -
+        midiNoteNum: 57
+        start: 36
+        duration: 7
+        dynamic: 5
+        orderIn: 9
+        orderOut: 2
+      -
+        midiNoteNum: 65
+        start: 44
+        duration: 4
+        dynamic: 5
+        orderIn: 11
+        orderOut: 19
+      -
+        midiNoteNum: 64
+        start: 48
+        duration: 7
+        dynamic: 5
+        orderIn: 17
+        orderOut: 5
+      -
+        midiNoteNum: 64
+        start: 56
+        duration: 4
+        dynamic: 5
+        orderIn: 14
+        orderOut: 12
+      -
+        midiNoteNum: 60
+        start: 60
+        duration: 2
+        dynamic: 5
+        orderIn: 19
+        orderOut: 8
+      -
+        midiNoteNum: 58
+        start: 62
+        duration: 2
+        dynamic: 5
+        orderIn: 2
+        orderOut: 20
+      -
+        midiNoteNum: 57
+        start: 64
+        duration: 4
+        dynamic: 5
+        orderIn: 12
+        orderOut: 17
+      -
+        midiNoteNum: 60
+        start: 68
+        duration: 4
+        dynamic: 5
+        orderIn: 20
+        orderOut: 6
+      -
+        midiNoteNum: 53
+        start: 72
+        duration: 4
+        dynamic: 5
+        orderIn: 8
+        orderOut: 9
+      -
+        midiNoteNum: 52
+        start: 76
+        duration: 4
+        dynamic: 5
+        orderIn: 16
+        orderOut: 16
+      -
+        midiNoteNum: 53
+        start: 80
+        duration: 2
+        dynamic: 5
+        orderIn: 3
+        orderOut: 13
+      -
+        midiNoteNum: 53
+        start: 84
+        duration: 7
+        dynamic: 5
+        orderIn: 10
+        orderOut: 1
+      -
+        midiNoteNum: 52
+        start: 92
+        duration: 2
+        dynamic: 5
+        orderIn: 15
+        orderOut: 15
+      -
+        midiNoteNum: 48
+        start: 96
+        duration: 7
+        dynamic: 5
+        orderIn: 4
+        orderOut: 3
+  - 
+    name: p4-3
+    duration: 112
+    notes:
+      -
+        midiNoteNum: 58
+        start: 0
+        duration: 7
+        dynamic: 5
+        orderIn: 11
+        orderOut: 1
+      -
+        midiNoteNum: 58
+        start: 8
+        duration: 7
+        dynamic: 5
+        orderIn: 6
+        orderOut: 2
+      -
+        midiNoteNum: 62
+        start: 16
+        duration: 2
+        dynamic: 5
+        orderIn: 2
+        orderOut: 3
+      -
+        midiNoteNum: 60
+        start: 24
+        duration: 7
+        dynamic: 5
+        orderIn: 5
+        orderOut: 4
+      -
+        midiNoteNum: 60
+        start: 32
+        duration: 7
+        dynamic: 5
+        orderIn: 12
+        orderOut: 5
+      -
+        midiNoteNum: 58
+        start: 40
+        duration: 7
+        dynamic: 5
+        orderIn: 8
+        orderOut: 6
+      -
+        midiNoteNum: 55
+        start: 48
+        duration: 7
+        dynamic: 5
+        orderIn: 1
+        orderOut: 7
+      -
+        midiNoteNum: 58
+        start: 56
+        duration: 7
+        dynamic: 5
+        orderIn: 4
+        orderOut: 8
+      -
+        midiNoteNum: 57
+        start: 64
+        duration: 4
+        dynamic: 5
+        orderIn: 7
+        orderOut: 9
+      -
+        midiNoteNum: 60
+        start: 68
+        duration: 4
+        dynamic: 5
+        orderIn: 15
+        orderOut: 10
+      -
+        midiNoteNum: 60
+        start: 72
+        duration: 4
+        dynamic: 5
+        orderIn: 9
+        orderOut: 11
+      -
+        midiNoteNum: 62
+        start: 76
+        duration: 4
+        dynamic: 5
+        orderIn: 3
+        orderOut: 12
+      -
+        midiNoteNum: 60
+        start: 80
+        duration: 7
+        dynamic: 5
+        orderIn: 14
+        orderOut: 13
+      -
+        midiNoteNum: 58
+        start: 88
+        duration: 7
+        dynamic: 5
+        orderIn: 10
+        orderOut: 14
+      -
+        midiNoteNum: 57
+        start: 96
+        duration: 7
+        dynamic: 5
+        orderIn: 13
+        orderOut: 15
+sections: 
+  -
+    name: s1-3
+    startPattern: p1-3
+    steps: 1
+  -
+    name: s12-3
+    startPattern: p1-3
+    endPattern: p2-3
+    steps: 5
+  -
+    name: s2-3
+    startPattern: p2-3
+    steps: 1
+  -
+    name: s23-3
+    startPattern: p2-3
+    endPattern: p3-3
+    steps: 5
+  -
+    name: s3-3
+    startPattern: p3-3
+    steps: 1
+  -
+    name: s34-3
+    startPattern: p3-3
+    endPattern: p4-3
+    steps: 5
+  -
+    name: s4-3
+    startPattern: p4-3
+    steps: 1

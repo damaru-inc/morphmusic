@@ -245,7 +245,7 @@ patterns:
         orderOut: 1
       -
         midiNoteNum: 53
-        start: 69
+        start: 68
         duration: 4
         dynamic: 5
         orderIn: 10

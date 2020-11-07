@@ -82,9 +82,8 @@ public class Morpher {
             }
         }
 
-        log.info(String.format("Finished processing part %s currentPosition: %d", part.getName(), currentPosition));
-        // notes.forEach(log::debug);
-        log.info("Finished dumping " + notes.size() + " notes.");
+        log.info("Finished processing part {} currentPosition: {} notes generated: {}", part.getName(),
+                currentPosition, notes.size());
         part.setNotes(notes);
     }
 
@@ -105,7 +104,8 @@ public class Morpher {
         int numEndNotes = endNotes.size();
         int durationDiff = endPattern.getDuration() - startPattern.getDuration();
         double durationFactor = endPattern.getDuration() / startPattern.getDuration();
-        log.info(String.format("durationDiff: %d durationFactor: %4f currentPosition: %d", durationDiff, durationFactor,
+        log.info(String.format("morphPatterns durationDiff: %d durationFactor: %4f currentPosition: %d", durationDiff,
+                durationFactor,
                 currentPosition));
 
         for (int step = 0; step < steps; step++) {
@@ -130,7 +130,8 @@ public class Morpher {
             int numNotesAddedFromEnd = (int) Math.round(numEndNotes * percentDone);
             List<Note> notesThisStep = new ArrayList<>();
 
-            log.info(String.format("step: %d pos: %d pc: %f dur: %d startNotes: %d endNotes: %d", step, currentPosition,
+            log.debug(String.format("step: %d pos: %d pc: %f dur: %d startNotes: %d endNotes: %d", step,
+                    currentPosition,
                     percentDone, stepDuration, numStartNotes - numNotesDroppedFromStart, numNotesAddedFromEnd));
 
             for (Note note : startNotes) {

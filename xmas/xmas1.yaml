@@ -210,7 +210,7 @@ patterns:
       -
         midiNoteNum: 65
         start: 96
-        duration: 8
+        duration: 7
         dynamic: 5
         orderIn: 30
         orderOut: 15
@@ -263,7 +263,7 @@ patterns:
       -
         midiNoteNum: 69
         start: 24
-        duration: 8
+        duration: 7
         dynamic: 5
         orderIn: 7
         orderOut: 4
@@ -312,7 +312,7 @@ patterns:
       -
         midiNoteNum: 65
         start: 56
-        duration: 4
+        duration: 7
         dynamic: 5
         orderIn: 4
         orderOut: 8
@@ -407,7 +407,7 @@ patterns:
       -
         midiNoteNum: 72
         start: 48
-        duration: 8
+        duration: 7
         dynamic: 5
         orderIn: 21
         orderOut: 14
@@ -526,7 +526,7 @@ patterns:
       -
         midiNoteNum: 65
         start: 96
-        duration: 8
+        duration: 7
         dynamic: 5
         orderIn: 16
         orderOut: 15
@@ -537,7 +537,7 @@ patterns:
       -
         midiNoteNum: 72
         start: 0
-        duration: 8
+        duration: 7
         dynamic: 5
         orderIn: 15
         orderOut: 1
@@ -572,7 +572,7 @@ patterns:
       -
         midiNoteNum: 70
         start: 16
-        duration: 8
+        duration: 7
         dynamic: 5
         orderIn: 23
         orderOut: 6
@@ -607,7 +607,7 @@ patterns:
       -
         midiNoteNum: 69
         start: 32
-        duration: 8
+        duration: 7
         dynamic: 5
         orderIn: 24
         orderOut: 11
@@ -656,7 +656,7 @@ patterns:
       -
         midiNoteNum: 60
         start: 56
-        duration: 8
+        duration: 7
         dynamic: 5
         orderIn: 21
         orderOut: 18
@@ -691,21 +691,21 @@ patterns:
       -
         midiNoteNum: 69
         start: 80
-        duration: 8
+        duration: 7
         dynamic: 5
         orderIn: 1
         orderOut: 23
       -
         midiNoteNum: 67
         start: 88
-        duration: 8
+        duration: 7
         dynamic: 5
         orderIn: 9
         orderOut: 24
       -
         midiNoteNum: 65
         start: 96
-        duration: 16
+        duration: 15
         dynamic: 5
         orderIn: 13
         orderOut: 25
