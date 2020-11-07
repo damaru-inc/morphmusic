@@ -1,4 +1,4 @@
-package com.damaru.midi;
+package com.damaru.morphmusic;
 
 public class GeneratorException extends Exception {
     public GeneratorException(Throwable cause) {

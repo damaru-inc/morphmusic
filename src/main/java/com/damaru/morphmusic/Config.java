@@ -1,20 +1,39 @@
 package com.damaru.morphmusic;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 @Component
+@ConfigurationProperties("morpher")
 public class Config {
 
-    @Value("${morpher.generateReport}")
-    private boolean generateReport;
+    private int defaultTempo = 60;
 
-    @Value("${morpher.randomizeOrder}")
+    private boolean generateReport = false;
+
+    private boolean generateTempo = true;
+
     private boolean randomizeOrder = false;
 
-    @Value("${morpher.snapToGrid}")
     private boolean snapToGrid = true;
+
+    public int getDefaultTempo() {
+        return defaultTempo;
+    }
+
+    public void setDefaultTempo(int defaultTempo) {
+        this.defaultTempo = defaultTempo;
+    }
+
+    public boolean isGenerateTempo() {
+        return generateTempo;
+    }
+
+    public void setGenerateTempo(boolean generateTempo) {
+        this.generateTempo = generateTempo;
+    }
 
     public boolean isGenerateReport() {
         return generateReport;

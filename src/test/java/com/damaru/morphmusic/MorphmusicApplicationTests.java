@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.damaru.midi.Generator;
 import com.damaru.morphmusic.model.Part;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 

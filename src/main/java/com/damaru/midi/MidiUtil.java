@@ -201,6 +201,30 @@ public class MidiUtil {
         return message;
     }
 
+    public static MidiEvent createTempoMessage(int tempo) throws InvalidMidiDataException {
+        double beatsPerSecond = tempo / 60.0;
+        double secondsPerBeat = 1 / beatsPerSecond;
+        long microsecsPerBeat = (long) (secondsPerBeat * 1_000_000);
+
+            /*
+            Nice ! But the real formula is BPM = (60/(500,000e-6))*b/4, with b the lower numeral of the time signature. You assumed b=4
+             */
+        ByteBuffer bb = ByteBuffer.allocate(8);
+        bb.putLong(microsecsPerBeat);
+        bb.flip();
+        byte[] tempoBytes = bb.array();
+        log.debug(String.format("tempo: %d %x %x %x\n", tempoBytes.length, tempoBytes[5], tempoBytes[6],
+                tempoBytes[7]));
+
+        MetaMessage message = new MetaMessage();
+        byte[] data = new byte[3];
+        data[0] = tempoBytes[5];
+        data[1] = tempoBytes[6];
+        data[2] = tempoBytes[7];
+        message.setMessage(0x51, data, 3);
+        return new MidiEvent(message, 0);
+    }
+
     /**
      * TODO write a unit test for getPulsesPerUnitOfMeasurement
      *

@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
-import com.damaru.midi.GeneratorException;
 import com.damaru.midi.MidiUtil;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import org.slf4j.Logger;
@@ -17,7 +16,6 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.damaru.midi.Generator;
 import com.damaru.morphmusic.model.Part;
 import com.damaru.morphmusic.model.Piece;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
@@ -31,7 +29,8 @@ public class MorphmusicApplication implements ApplicationRunner {
 
     @Autowired
     Config config;
-
+    @Autowired
+    Generator generator;
     @Autowired
     Morpher morpher;
 
@@ -93,7 +92,6 @@ public class MorphmusicApplication implements ApplicationRunner {
             String partBaseName = piecename + "-" + i;
             doPart(piece, part, partBaseName);
         }
-
     }
 
     private void runPart(String filename)
@@ -118,17 +116,24 @@ public class MorphmusicApplication implements ApplicationRunner {
 
     private void doPart(Piece piece, Part part, String partBaseName)
             throws IOException, GeneratorException, MorpherException {
-        String reportFilename = partBaseName + ".txt";
-        File reportFile = new File(reportFilename);
-        FileWriter reportWriter = new FileWriter(reportFile);
+        FileWriter reportWriter = null;
+
+        if (config.isGenerateReport()) {
+            String reportFilename = partBaseName + ".txt";
+            File reportFile = new File(reportFilename);
+            reportWriter = new FileWriter(reportFile);
+        }
+
         part.setPiece(piece);
         morpher.process(part, reportWriter);
-        reportWriter.flush();
-        reportWriter.close();
+
+        if (config.isGenerateReport()) {
+            reportWriter.flush();
+            reportWriter.close();
+        }
+
         // This will write the part out to yaml.
         // mapper.writeValue(new File(basename + ".out.yaml"), part);
-        Generator generator = new Generator();
-        generator.setTempo(120);
         generator.generate(part);
         generator.writeFile(partBaseName + ".midi");
 

@@ -2,26 +2,30 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.damaru.midi;
+package com.damaru.morphmusic;
 
-import java.io.File;
-import java.nio.ByteBuffer;
-
-import javax.sound.midi.MetaMessage;
-import javax.sound.midi.MidiEvent;
-import javax.sound.midi.MidiSystem;
-import javax.sound.midi.Sequence;
-import javax.sound.midi.ShortMessage;
-import javax.sound.midi.Track;
-
+import com.damaru.midi.MidiUtil;
 import com.damaru.morphmusic.model.Note;
 import com.damaru.morphmusic.model.Part;
 import com.damaru.morphmusic.model.Piece;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import javax.sound.midi.MidiEvent;
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.Sequence;
+import javax.sound.midi.ShortMessage;
+import javax.sound.midi.Track;
+import java.io.File;
+
+@Component
 public class Generator {
     private static Logger log = LoggerFactory.getLogger(Generator.class);
+    @Autowired
+    Config config;
     private Sequence sequence;
     private Track track;
     private int tempo = 60;
@@ -41,9 +45,16 @@ public class Generator {
         }
     }
 
+    @PostConstruct
+    private void init() {
+        tempo = config.getDefaultTempo();
+    }
+
     private void createTrack() throws GeneratorException {
         track = sequence.createTrack();
-        setTempoOnTrack();
+        if (config.isGenerateTempo()) {
+            setTempoOnTrack();
+        }
     }
 
     public void setProgram(int program, int tick) throws GeneratorException {
@@ -64,31 +75,10 @@ public class Generator {
         this.tempo = tempo;
     }
 
-    // TODO: Move this to MidiUtil.
     private void setTempoOnTrack() throws GeneratorException {
         try {
-            double beatsPerSecond = tempo / 60.0;
-            double secondsPerBeat = 1 / beatsPerSecond;
-            long microsecsPerBeat = (long) (secondsPerBeat * 1_000_000);
-
-            /*
-            Nice ! But the real formula is BPM = (60/(500,000e-6))*b/4, with b the lower numeral of the time signature. You assumed b=4
-             */
-            ByteBuffer bb = ByteBuffer.allocate(8);
-            bb.putLong(microsecsPerBeat);
-            bb.flip();
-            byte[] tempoBytes = bb.array();
-            log.debug(String.format("tempo: %d %x %x %x\n", tempoBytes.length, tempoBytes[5], tempoBytes[6],
-                    tempoBytes[7]));
-
-            MetaMessage message = new MetaMessage();
-            byte[] data = new byte[3];
-            data[0] = tempoBytes[5];
-            data[1] = tempoBytes[6];
-            data[2] = tempoBytes[7];
-            message.setMessage(0x51, data, 3);
-            MidiEvent event = new MidiEvent(message, 0);
-            track.add(event);
+            MidiEvent tempoMessage = MidiUtil.createTempoMessage(tempo);
+            track.add(tempoMessage);
         } catch (Exception e) {
             throw new GeneratorException(e);
         }
