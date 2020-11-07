@@ -17,6 +17,10 @@ public class Config {
 
     private boolean randomizeOrder = false;
 
+    private int randomizeTimePercentage = 0;
+
+    private int randomizeVelocityPercentage = 0;
+
     private boolean snapToGrid = true;
 
     public int getDefaultTempo() {
@@ -46,6 +50,22 @@ public class Config {
     public boolean isRandomizeOrder() { return randomizeOrder; }
 
     public void setRandomizeOrder(boolean randomizeOrder) { this.randomizeOrder = randomizeOrder; }
+
+    public int getRandomizeTimePercentage() {
+        return randomizeTimePercentage;
+    }
+
+    public void setRandomizeTimePercentage(int randomizeTimePercentage) {
+        this.randomizeTimePercentage = randomizeTimePercentage;
+    }
+
+    public int getRandomizeVelocityPercentage() {
+        return randomizeVelocityPercentage;
+    }
+
+    public void setRandomizeVelocityPercentage(int randomizeVelocityPercentage) {
+        this.randomizeVelocityPercentage = randomizeVelocityPercentage;
+    }
 
     public boolean isSnapToGrid() {
         return snapToGrid;

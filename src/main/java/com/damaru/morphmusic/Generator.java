@@ -124,11 +124,26 @@ public class Generator {
     }
 
     public void generate(Note n) throws GeneratorException {
-        long end = n.getMidiStart() + n.getMidiDuration();
-        log.debug("Key: {} start: {} length: {} end: {} vel: {}", n.getMidiNoteNum(), n.getMidiStart(),
-                n.getMidiDuration(), end, n.getDynamic());
+        long start = n.getMidiStart();
+        long end = start + n.getMidiDuration();
+
+        // Maybe randomize the velocity
+        int velocity = n.getVelocity();
+        int randomizeVelocity = config.getRandomizeVelocityPercentage();
+
+        if (randomizeVelocity > 0) {
+            double randomizePercent = randomizeVelocity / 100.0;
+            // Suppose randomizeVelocity = 5, randomizePercent = .05. We want to get
+            // something in the range -0.5 .. -.5. So double the range and offset it down.
+            double percent = (Math.random() * randomizePercent * 2.0) - randomizePercent;
+            velocity += (int) Math.round(velocity * percent);
+            velocity = Math.min(velocity, 127);
+        }
+
+        log.debug("Key: {} start: {} end: {}  note vel: {} -> {}",
+                n.getMidiNoteNum(), start, end, n.getVelocity(), velocity);
         try {
-            track.add(MidiUtil.createNoteOnEvent(n.getMidiNoteNum(), n.getVelocity(), n.getMidiStart()));
+            track.add(MidiUtil.createNoteOnEvent(n.getMidiNoteNum(), velocity, start));
             track.add(MidiUtil.createNoteOffEvent(n.getMidiNoteNum(), end));
         } catch (Exception e) {
             throw new GeneratorException(e);
