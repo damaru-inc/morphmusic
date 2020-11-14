@@ -1,3 +1,3 @@
-Tempo is hard coded in application.
-Time unit of 16th notes is hard-coded.
-Randomize the velocity, with a parameter.
+We're half through doing the new timing stuff. When we parse just a part file, construct a Piece object so that we can know the time signature and maybe tempo.
+Time unit of 16th notes was hard-coded, it should be supported in part files, it's already in piece.unitOfMeasurement.
+Randomize the time, with a parameter, as a percent of the musicalUnitOfTime.

@@ -26,6 +26,9 @@ public class Morpher {
     @Autowired
     Config config;
 
+    @Autowired
+    Midi midi;
+
     public void process(Part part, Writer reportWriter) throws MorpherException, IOException {
         log.info("Processing part " + part.getName() + " quartersPerBeat: " + part.getQuartersPerBar());
         log.info("Config: " + config);
@@ -55,9 +58,10 @@ public class Morpher {
         long currentPosition = 0; // piece.unitOfMeasure if snap-to-grid, or midi ticks.
 
         for (Section section : part.getSections()) {
-            long pos = config.isSnapToGrid() ? currentPosition * MidiUtil.PULSES_PER_SIXTEENTH_NOTE : currentPosition;
+            long pos = config.isSnapToGrid() ? currentPosition * midi.getPulsesPerUnit() :
+                    currentPosition;
             String msg = String.format("Section %s start: %s ", section.getName(),
-                    MidiUtil.stringRep(pos, part));
+                    midi.stringRep(pos));
             log.info(msg);
 
             if (config.isGenerateReport()) {
@@ -73,7 +77,7 @@ public class Morpher {
 
             pos = config.isSnapToGrid() ? currentPosition * MidiUtil.PULSES_PER_SIXTEENTH_NOTE : currentPosition;
             msg = String.format("Section %s end  : %s ", section.getName(),
-                    MidiUtil.stringRep(pos, part));
+                    midi.stringRep(pos));
             log.info(msg);
 
             if (config.isGenerateReport()) {
@@ -122,7 +126,7 @@ public class Morpher {
                 if (config.isSnapToGrid()) {
                     stepDuration = startPattern.getDuration();
                 } else {
-                    stepDuration = startPattern.getDuration() * MidiUtil.PULSES_PER_SIXTEENTH_NOTE;
+                    stepDuration = startPattern.getDuration() * midi.getPulsesPerUnit();
                 }
             }
 
@@ -166,9 +170,9 @@ public class Morpher {
 
         if (durationDiff == 0) {
             if (config.isSnapToGrid()) {
-                dest.setMidiStart((currentPosition + src.getStart()) * MidiUtil.PULSES_PER_SIXTEENTH_NOTE);
+                dest.setMidiStart((currentPosition + src.getStart()) * midi.getPulsesPerUnit());
             } else {
-                dest.setMidiStart(currentPosition + (src.getStart() * MidiUtil.PULSES_PER_SIXTEENTH_NOTE));
+                dest.setMidiStart(currentPosition + (src.getStart() * midi.getPulsesPerUnit()));
             }
         } else {
             double s = src.getProportionalStart() * stepDuration;
@@ -180,8 +184,8 @@ public class Morpher {
             long start = currentPosition + rs;
             long dur = Math.max(1, rd);
             if (config.isSnapToGrid()) {
-                dest.setMidiStart(start * MidiUtil.PULSES_PER_SIXTEENTH_NOTE);
-                dest.setMidiDuration(dur * MidiUtil.PULSES_PER_SIXTEENTH_NOTE);
+                dest.setMidiStart(start * midi.getPulsesPerUnit());
+                dest.setMidiDuration(dur * midi.getPulsesPerUnit());
             } else {
                 dest.setMidiStart(start);
                 dest.setMidiDuration(dur);

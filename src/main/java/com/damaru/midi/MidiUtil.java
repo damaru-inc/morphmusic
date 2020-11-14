@@ -24,13 +24,11 @@ import com.damaru.morphmusic.model.Piece;
 /**
  * @author mdavis
  */
-@Component
 public class MidiUtil {
 
     private static Logger log = LoggerFactory.getLogger(MidiUtil.class);
     private static Sequencer sequencer;
     private static Synthesizer synthesizer;
-    private static final List<InstrumentValue> instruments = new ArrayList<>();
     public static final int PPQ = 480; // pulses per quarter note
     public static final int PPS = PPQ * 2; // pulses per second
     public static final int MIDDLE_C = 60; // midi note number.
@@ -47,103 +45,6 @@ public class MidiUtil {
 
         META_MESSAGE_NAMES.put(0x2f, "  END");
         META_MESSAGE_NAMES.put(0x51, "TEMPO");
-    }
-
-    @Autowired
-    Config config;
-
-    public static List<MidiDeviceValue> getMidiDevices() {
-        List<MidiDeviceValue> ret = new ArrayList<>();
-        try {
-            for (MidiDevice.Info info : MidiSystem.getMidiDeviceInfo()) {
-                String desc = info.getName() + " - " + info.getDescription();
-                MidiDevice device = MidiSystem.getMidiDevice(info);
-                log.debug(desc + " rec: " + device.getMaxReceivers()
-                        + " tra: " + device.getMaxTransmitters() + info);
-
-                if (device.getMaxReceivers() != 0 && !desc.startsWith("Real Time Sequencer")) {
-                    MidiDeviceValue val = new MidiDeviceValue(device, desc);
-                    ret.add(val);
-                }
-            }
-        } catch (MidiUnavailableException e) {
-            log.error("Unable to get midi devices: " + e.getMessage());
-        }
-        return ret;
-    }
-
-    public static List<InstrumentValue> getInstruments() throws MidiUnavailableException {
-        if (instruments.isEmpty()) {
-            synthesizer = MidiSystem.getSynthesizer();
-            Soundbank sb = synthesizer.getDefaultSoundbank();
-            for (Instrument i : sb.getInstruments()) {
-                instruments.add(new InstrumentValue(i));
-                // log.debug("instrument: " + i.getName() + " " +
-                // i.getPatch().getBank() + " " + i.getPatch().getProgram());
-            }
-        }
-        return instruments;
-    }
-
-    public static void playSequence(Sequence sequence, MidiDeviceValue midiDeviceValue) {
-        try {
-            if (sequencer == null) {
-                sequencer = MidiSystem.getSequencer();
-                MidiDevice.Info mi = sequencer.getDeviceInfo();
-                float bpm = sequencer.getTempoInBPM();
-                log.debug("sequencer: " + mi + " bpm: " + bpm);
-                MetaEventListener listener = new MetaEventListener() {
-                    @Override
-                    public void meta(MetaMessage event) {
-                        if (event.getType() == 47) {
-                            sequencer.close();
-                            currentReceiver.close();
-                            log.debug("Got end-of-track.");
-                        }
-                    }
-
-                };
-                sequencer.addMetaEventListener(listener);
-            }
-
-            if (sequencer.isRunning()) {
-                sequencer.stop();
-            }
-
-            if (sequencer.isOpen()) {
-                sequencer.close();
-            }
-
-            if (currentReceiver != null) {
-                currentReceiver.close();
-            }
-
-            sequencer.open();
-
-            if (midiDeviceValue != null) {
-                Transmitter transmitter = null;
-                List<Transmitter> transmitters = sequencer.getTransmitters();
-                log.debug("transmitters " + transmitters.size());
-
-                if (transmitters != null && transmitters.size() > 0) {
-                    transmitter = transmitters.get(0);
-                } else {
-                    transmitter = sequencer.getTransmitter();
-                }
-
-                log.debug("Using device " + midiDeviceValue);
-                MidiDevice device = midiDeviceValue.getMidiDevice();
-                device.open();
-                currentReceiver = device.getReceiver();
-                transmitter.setReceiver(currentReceiver);
-            }
-
-            sequencer.setSequence(sequence);
-            log.debug("start");
-            sequencer.start();
-        } catch (MidiUnavailableException | InvalidMidiDataException ex) {
-            log.error("Error", ex);
-        }
     }
 
     public static void stopSequence() {
@@ -168,102 +69,6 @@ public class MidiUtil {
         }
     }
 
-    public static MidiEvent createNoteOnEvent(int key, int velocity, long tick) throws Exception {
-        //log.debug("key: " + key + " vel: " + velocity + " tick: " + tick);
-        return createNoteEvent(ShortMessage.NOTE_ON, key, velocity, tick);
-    }
-
-    public static MidiEvent createNoteOffEvent(int key, long tick) throws Exception {
-        return createNoteEvent(ShortMessage.NOTE_OFF, key, 0, tick);
-    }
-
-    public static MidiEvent createNoteEvent(int command, int key, int velocity, long tick) throws Exception {
-        //log.debug("command: " + command + " key: " + key + " vel: " + velocity + " tick: " + tick);
-        ShortMessage message = createShortMessage(command, key, velocity);
-        MidiEvent event = new MidiEvent(message, tick);
-        return event;
-    }
-
-    public static ShortMessage createNoteOnMessage(int key, int velocity) throws Exception {
-        return createShortMessage(ShortMessage.NOTE_ON, key, velocity);
-    }
-
-    public static ShortMessage createNoteOffMessage(int key, int velocity) throws Exception {
-        return createShortMessage(ShortMessage.NOTE_OFF, key, velocity);
-    }
-
-    public static ShortMessage createShortMessage(int command, int key, int velocity) throws Exception {
-        ShortMessage message = new ShortMessage();
-        message.setMessage(command,
-                0, // always on channel 1
-                key,
-                velocity);
-        return message;
-    }
-
-    public static MidiEvent createTempoMessage(int tempo) throws InvalidMidiDataException {
-        double beatsPerSecond = tempo / 60.0;
-        double secondsPerBeat = 1 / beatsPerSecond;
-        long microsecsPerBeat = (long) (secondsPerBeat * 1_000_000);
-
-            /*
-            Nice ! But the real formula is BPM = (60/(500,000e-6))*b/4, with b the lower numeral of the time signature. You assumed b=4
-             */
-        ByteBuffer bb = ByteBuffer.allocate(8);
-        bb.putLong(microsecsPerBeat);
-        bb.flip();
-        byte[] tempoBytes = bb.array();
-        log.debug(String.format("tempo: %d %x %x %x\n", tempoBytes.length, tempoBytes[5], tempoBytes[6],
-                tempoBytes[7]));
-
-        MetaMessage message = new MetaMessage();
-        byte[] data = new byte[3];
-        data[0] = tempoBytes[5];
-        data[1] = tempoBytes[6];
-        data[2] = tempoBytes[7];
-        message.setMessage(0x51, data, 3);
-        return new MidiEvent(message, 0);
-    }
-
-    /**
-     * TODO write a unit test for getPulsesPerUnitOfMeasurement
-     *
-     * @param piece
-     * @return
-     */
-    public static int getPulsesPerUnitOfMeasurement(Piece piece) {
-        int ret = 1;
-
-        int unitOfMeasurement = piece.getUnitOfMeasurement();
-
-        if (unitOfMeasurement > 0) {
-            ret = (int) (PPQ / (double) (unitOfMeasurement / 4));
-        }
-
-        return ret;
-    }
-
-    // currentPosition * MidiUtil.PULSES_PER_SIXTEENTH_NOTE, part.getQuartersPerBar()
-    public static String stringRep(long position, Part part) {
-        long midiPosition = position;
-//        Piece piece = part.getPiece();
-
-        // TODO finish stringRep
-//        if (!piece.isUseMidiPulseAsUnitOfMeasure()) {
-//            int m = getPulsesPerUnitOfMeasurement(piece);
-//        }
-        long pulsesPerBar = PPQ * part.getQuartersPerBar();
-        long bars = midiPosition / pulsesPerBar;
-        long remainder = midiPosition - (bars * pulsesPerBar);
-        long quarters = remainder / PPQ;
-        remainder -= quarters * PPQ;
-        long sixteenths = remainder / PULSES_PER_SIXTEENTH_NOTE;
-        remainder -= sixteenths * PULSES_PER_SIXTEENTH_NOTE;
-
-        String ret =
-                String.format("%d.%d.%d.%03d %5d", bars + 1, quarters + 1, sixteenths + 1, remainder, midiPosition);
-        return ret;
-    }
 
     /**
      * TODO write convertToMidiPulses

@@ -1,8 +1,6 @@
 package com.damaru.morphmusic;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,6 +12,18 @@ public class Config {
     private boolean generateReport = false;
 
     private boolean generateTempo = true;
+
+    /**
+     * This is the value of the note start and duration note numbers.
+     * If unitOfMeasurement is 16, then we're counting 16nd notes and so on.
+     * This means that a duration of 4 means 4 16th notes.
+     */
+    private int unitOfMeasurement = 16;
+
+    /**
+     * Used by the midi system.
+     */
+    private int pulsesPerQuarterNote = 480;
 
     private boolean randomizeOrder = false;
 
@@ -47,6 +57,14 @@ public class Config {
         this.generateReport = generateReport;
     }
 
+    public int getPulsesPerQuarterNote() {
+        return pulsesPerQuarterNote;
+    }
+
+    public void setPulsesPerQuarterNote(int pulsesPerQuarterNote) {
+        this.pulsesPerQuarterNote = pulsesPerQuarterNote;
+    }
+
     public boolean isRandomizeOrder() { return randomizeOrder; }
 
     public void setRandomizeOrder(boolean randomizeOrder) { this.randomizeOrder = randomizeOrder; }
@@ -73,6 +91,14 @@ public class Config {
 
     public void setSnapToGrid(boolean snapToGrid) {
         this.snapToGrid = snapToGrid;
+    }
+
+    public int getUnitOfMeasurement() {
+        return unitOfMeasurement;
+    }
+
+    public void setUnitOfMeasurement(int unitOfMeasurement) {
+        this.unitOfMeasurement = unitOfMeasurement;
     }
 
     public String toString() {

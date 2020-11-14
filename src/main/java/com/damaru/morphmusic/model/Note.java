@@ -144,15 +144,6 @@ public class Note {
 		this.midiDuration = midiDuration;
 	}
 
-	//    public int getMidiStart() {
-//        return MidiUtil.PULSES_PER_SIXTEENTH_NOTE * start;
-//    }
-//
-//    public int getMidiDuration() {
-//        return MidiUtil.PULSES_PER_SIXTEENTH_NOTE * duration;
-//    }
-
-
 	@Override
 	public String toString() {
 		return String.format("Note [id=%12s m=%2d st=%3d %6.03f dur=%3d %6.03f in=%3d out=%d]", id, midiNoteNum, start,

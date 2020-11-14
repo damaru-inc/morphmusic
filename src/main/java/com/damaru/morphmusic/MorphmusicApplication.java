@@ -32,6 +32,8 @@ public class MorphmusicApplication implements ApplicationRunner {
     @Autowired
     Generator generator;
     @Autowired
+    Midi midi;
+    @Autowired
     Morpher morpher;
 
     public static void main(String[] args) {
@@ -83,7 +85,8 @@ public class MorphmusicApplication implements ApplicationRunner {
         Piece piece = null;
         YAMLMapper mapper = new YAMLMapper();
         piece = mapper.readValue(new File(filename), Piece.class);
-        log.warn("piece: " + piece);
+        log.debug("piece: {}", piece);
+        midi.setUnitOfMeasurement(piece.getUnitOfMeasurement());
 
         int i = 0;
         for (Part part : piece.getParts()) {
@@ -109,6 +112,11 @@ public class MorphmusicApplication implements ApplicationRunner {
         YAMLMapper mapper = new YAMLMapper();
         Part part = mapper.readValue(new File(filename), Part.class);
         log.info("Loaded part: " + part);
+
+        // make sure that the unitOfMeasurement has been set.
+        int u = midi.getPulsesPerUnit();
+
+
 
         doPart(null, part, partname);
 

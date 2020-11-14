@@ -26,13 +26,17 @@ public class Generator {
     private static Logger log = LoggerFactory.getLogger(Generator.class);
     @Autowired
     Config config;
+    @Autowired
+    Midi midi;
     private Sequence sequence;
     private Track track;
     private int tempo = 60;
 
-    public Generator() throws GeneratorException {
+    @PostConstruct
+    private void init() throws GeneratorException {
+        tempo = config.getDefaultTempo();
         try {
-            sequence = new Sequence(Sequence.PPQ, MidiUtil.PPQ);
+            sequence = new Sequence(Sequence.PPQ, midi.getPulsesPerUnit());
             int[] supported = MidiSystem.getMidiFileTypes();
             log.debug("Midi types supported: ");
             for (int i = 0; i < supported.length; i++) {
@@ -43,11 +47,6 @@ public class Generator {
         } catch (Exception e) {
             throw new GeneratorException(e);
         }
-    }
-
-    @PostConstruct
-    private void init() {
-        tempo = config.getDefaultTempo();
     }
 
     private void createTrack() throws GeneratorException {
@@ -77,7 +76,7 @@ public class Generator {
 
     private void setTempoOnTrack() throws GeneratorException {
         try {
-            MidiEvent tempoMessage = MidiUtil.createTempoMessage(tempo);
+            MidiEvent tempoMessage = midi.createTempoMessage(tempo);
             track.add(tempoMessage);
         } catch (Exception e) {
             throw new GeneratorException(e);
@@ -112,10 +111,17 @@ public class Generator {
         }
     }
 
-    public void generate(Part p) throws GeneratorException {
+    public void generate(Part part) throws GeneratorException {
         try {
+            Piece piece = part.getPiece();
+            // TODO Doesn't feel right.
+            if (piece != null) {
+                midi.setUnitOfMeasurement(piece.getUnitOfMeasurement());
+            } else {
+                midi.setUnitOfMeasurement(config.getUnitOfMeasurement());
+            }
             createTrack();
-            for (Note n : p.getNotes()) {
+            for (Note n : part.getNotes()) {
                 generate(n);
             }
         } catch (Exception e) {
@@ -143,8 +149,8 @@ public class Generator {
         log.debug("Key: {} start: {} end: {}  note vel: {} -> {}",
                 n.getMidiNoteNum(), start, end, n.getVelocity(), velocity);
         try {
-            track.add(MidiUtil.createNoteOnEvent(n.getMidiNoteNum(), velocity, start));
-            track.add(MidiUtil.createNoteOffEvent(n.getMidiNoteNum(), end));
+            track.add(midi.createNoteOnEvent(n.getMidiNoteNum(), velocity, start));
+            track.add(midi.createNoteOffEvent(n.getMidiNoteNum(), end));
         } catch (Exception e) {
             throw new GeneratorException(e);
         }
