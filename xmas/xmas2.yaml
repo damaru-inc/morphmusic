@@ -508,7 +508,7 @@ sections:
     name: s12-2
     startPattern: p1-2
     endPattern: p2-2
-    steps: 5
+    steps: 4
   -
     name: s2-2
     startPattern: p2-2
@@ -517,7 +517,7 @@ sections:
     name: s23-2
     startPattern: p2-2
     endPattern: p3-2
-    steps: 5
+    steps: 4
   -
     name: s3-2
     startPattern: p3-2
@@ -526,7 +526,7 @@ sections:
     name: s34-2
     startPattern: p3-2
     endPattern: p4-2
-    steps: 5
+    steps: 4
   -
     name: s4-2
     startPattern: p4-2

@@ -718,7 +718,7 @@ sections:
     name: s12-1
     startPattern: p1-1
     endPattern: p2-1
-    steps: 5
+    steps: 4
   -
     name: s2-1
     startPattern: p2-1
@@ -727,7 +727,7 @@ sections:
     name: s23-1
     startPattern: p2-1
     endPattern: p3-1
-    steps: 5
+    steps: 4
   -
     name: s3-1
     startPattern: p3-1
@@ -736,7 +736,7 @@ sections:
     name: s34-1
     startPattern: p3-1
     endPattern: p4-1
-    steps: 5
+    steps: 4
   -
     name: s4-1
     startPattern: p4-1

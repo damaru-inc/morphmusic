@@ -466,7 +466,7 @@ sections:
     name: s12-3
     startPattern: p1-3
     endPattern: p2-3
-    steps: 5
+    steps: 4
   -
     name: s2-3
     startPattern: p2-3
@@ -475,7 +475,7 @@ sections:
     name: s23-3
     startPattern: p2-3
     endPattern: p3-3
-    steps: 5
+    steps: 4
   -
     name: s3-3
     startPattern: p3-3
@@ -484,7 +484,7 @@ sections:
     name: s34-3
     startPattern: p3-3
     endPattern: p4-3
-    steps: 5
+    steps: 4
   -
     name: s4-3
     startPattern: p4-3

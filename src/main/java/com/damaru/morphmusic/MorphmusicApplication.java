@@ -115,9 +115,7 @@ public class MorphmusicApplication implements ApplicationRunner {
 
         // make sure that the unitOfMeasurement has been set.
         int u = midi.getPulsesPerUnit();
-
-
-
+        
         doPart(null, part, partname);
 
     }
