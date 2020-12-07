@@ -60,6 +60,7 @@ public class MorphmusicApplication implements ApplicationRunner {
         log.info(config.toString());
 
         for (String filename : args.getNonOptionArgs()) {
+            generator.init();
             try {
                 runPiece(filename);
             } catch (UnrecognizedPropertyException me) {
@@ -74,7 +75,7 @@ public class MorphmusicApplication implements ApplicationRunner {
             throws MorpherException, IOException, InvalidMidiDataException, GeneratorException {
         String piecename = filename;
 
-        log.info("Loading file " + filename);
+        log.info("runPiece: Loading file " + filename);
 
         int dot = filename.indexOf('.');
 
@@ -101,7 +102,7 @@ public class MorphmusicApplication implements ApplicationRunner {
             throws MorpherException, IOException, GeneratorException {
         String partname = filename;
 
-        log.info("Loading file " + filename);
+        log.info("runPart: Loading file " + filename);
 
         int dot = filename.indexOf('.');
 

@@ -33,7 +33,7 @@ public class Generator {
     private int tempo = 60;
 
     @PostConstruct
-    private void init() throws GeneratorException {
+    void init() throws GeneratorException {
         tempo = config.getDefaultTempo();
         try {
             sequence = new Sequence(Sequence.PPQ, midi.getPulsesPerUnit());
@@ -107,7 +107,7 @@ public class Generator {
     public void generate(Piece piece) throws GeneratorException {
 
         for (Part p : piece.getParts()) {
-            generate(p);
+             generate(p);
         }
     }
 
